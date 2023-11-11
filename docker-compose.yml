@@ -1,5 +1,5 @@
 services:
-    laravel.test:
+    application:
         build:
             context: ./vendor/laravel/sail/runtimes/8.2
             dockerfile: Dockerfile

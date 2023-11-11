@@ -4,7 +4,7 @@ namespace App\Utils\Params;
 
 use Illuminate\Support\Facades\Validator;
 
-class ValidateId
+class ValidId
 {
     public static function validate(mixed $id): int
     {

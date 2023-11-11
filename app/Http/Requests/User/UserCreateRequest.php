@@ -24,12 +24,7 @@ class UserCreateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "email" => [
-                "unique" => "E-mail já utilizado!"
-            ],
-            "password" => [
-                "confirmed" => "As senhas não são as mesmas!"
-            ]
+            "password.confirmed" =>  "As senhas não são as mesmas!"
         ];
     }
 }

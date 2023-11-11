@@ -20,3 +20,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::apiResource('/user', UserController::class);
+
+Route::apiResource('/user', UserController::class);

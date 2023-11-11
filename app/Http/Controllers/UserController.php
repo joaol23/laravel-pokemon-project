@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Contracts\UserServiceContract;
 use App\Dto\User\UserCreateDto;
+use App\Dto\User\UserUpdateDto;
 use App\Http\Requests\User\UserCreateRequest;
-use App\Utils\Params\ValidateId;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\UserUpdateRequest;
+use App\Models\User;
+use App\Utils\Params\ValidId;
 
 class UserController extends Controller
 {
@@ -19,38 +21,56 @@ class UserController extends Controller
     public function index()
     {
         return response()->json([
-            "data" => $this->userService->listAll()
+            "data" => $this->userService
+                ->listAll()
         ]);
     }
 
     public function store(UserCreateRequest $request)
     {
-        $validateData = (object) $request->validated();
+        $validatedData = (object) $request->validated();
         $userDto = new UserCreateDto(
-            $validateData->name,
-            $validateData->email,
-            $validateData->password
+            $validatedData->name,
+            $validatedData->email,
+            $validatedData->password
         );
 
         return response()->json([
-            "data" => $this->userService->create($userDto)
+            "data" => $this->userService
+                ->create($userDto)
         ], 201);
     }
 
     public function show(mixed $id)
     {
         return response()->json([
-            "data" => $this->userService->getById(ValidateId::validate($id))
+            "data" => $this->userService
+                ->getById(ValidId::validate($id))
         ]);
     }
 
-    public function update(Request $request, mixed $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        
+        $validatedData = (object) $request->validated();
+        $userUpdateDto = new UserUpdateDto(
+            $validatedData->name,
+            $validatedData->email
+        );
+
+        return response()->json([
+            "data" => $this->userService
+                ->update(
+                    $userUpdateDto,
+                    $user
+                )
+        ]);
     }
 
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        return response()->json([
+            "type" => $this->userService
+                ->inactive($user)
+        ]);
     }
 }

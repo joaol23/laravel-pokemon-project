@@ -8,6 +8,9 @@ class ObjectNotFound extends Exception
 {
     public function __construct(string $object)
     {
-        parent::__construct("{$object} não encontrado!", 404);
+        parent::__construct(
+            "{$object} não encontrado!",
+            404
+        );
     }
 }
