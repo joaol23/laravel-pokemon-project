@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum("active", ['0', '1'])
-                ->default('1');
+            $table->softDeletes('inactived_at');
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('active');
+            $table->dropSoftDeletes('inactived_at');
         });
     }
 };

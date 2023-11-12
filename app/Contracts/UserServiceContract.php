@@ -14,5 +14,5 @@ interface UserServiceContract
     public function getById(int $id): User;
     public function update(UserUpdateDto $userUpdateDto, User $user): User;
 
-    public function inactive(User $user): bool;
+    public function inactive(int $id): bool;
 }

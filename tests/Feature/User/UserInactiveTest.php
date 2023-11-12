@@ -11,6 +11,10 @@ test('Exclusão de usuário, sucesso', function () {
         ->assertStatus(200)->json("type");
 
     expect($return)->toBeTrue();
+    expect(
+        User::withTrashed()
+            ->find($user->getKey())->trashed()
+    )->toBeTrue();
 });
 
 test('Exclusão de usuário, erro', function () {
@@ -18,6 +22,6 @@ test('Exclusão de usuário, erro', function () {
         ->assertStatus(404)->json();
 
 
-    expect($return)->toHaveProperty('message', 'Dado não encontrado!');
+    expect($return)->toHaveProperty('message', 'Usuário não encontrado!');
     expect($return)->toHaveProperty('type', false);
 });

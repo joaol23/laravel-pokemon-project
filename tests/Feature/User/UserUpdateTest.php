@@ -22,7 +22,6 @@ test('Atualizar propriedade de usuário, sucesso', function () {
     expect($response)->toHaveProperty("id", $this->user->id);
     expect($response)->toHaveProperty("name", $newDataUser['name']);
     expect($response)->toHaveProperty("email", $newDataUser['email']);
-    expect($response->active)->toBeTrue();
 });
 
 test('Email alterado não pode já existir no banco, erro', function () {
@@ -77,6 +76,5 @@ test('Não pode alterar senha, sucesso', function () {
     expect($response)->toHaveProperty("id", $this->user->id);
     expect($response)->toHaveProperty("name", $newDataUser['name']);
     expect($response)->toHaveProperty("email", $newDataUser['email']);
-    expect($response->active)->toBeTrue();
     expect(Hash::check($newDataUser["password"], User::find($this->user->id)->password))->toBeFalse();
 });
