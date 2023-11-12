@@ -12,7 +12,7 @@ interface UserServiceContract
     public function create(UserCreateDto $userCreateDto): User;
     public function listAll(): Collection;
     public function getById(int $id): User;
-    public function update(UserUpdateDto $userUpdateDto, User $user): User;
+    public function update(UserUpdateDto $userUpdateDto, int $id): User;
 
     public function inactive(int $id): bool;
 }

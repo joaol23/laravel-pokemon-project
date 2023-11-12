@@ -49,7 +49,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, int $id)
     {
         $validatedData = (object) $request->validated();
         $userUpdateDto = new UserUpdateDto(
@@ -60,7 +60,7 @@ class UserController extends Controller
             "data" => $this->userService
                 ->update(
                     $userUpdateDto,
-                    $user
+                    $id
                 )
         ]);
     }
