@@ -27,9 +27,7 @@ class UserUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            "email" => [
-                "unique" => "E-mail já utilizado!"
-            ],
+            "email.unique" =>  "E-mail já utilizado!",
         ];
     }
 }

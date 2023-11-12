@@ -56,7 +56,6 @@ class UserController extends Controller
             $validatedData->name,
             $validatedData->email
         );
-
         return response()->json([
             "data" => $this->userService
                 ->update(

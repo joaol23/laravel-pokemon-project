@@ -44,7 +44,7 @@ test('Adicionar dois emails iguais, erro', function () {
     expect($return)->toHaveProperty("errors");
     expect($return->errors)->toBeArray();
     expect($return->errors['email'][0])->toBe(
-        "O campo e-mail já existe."
+        "E-mail já utilizado!"
     );
 });
 
