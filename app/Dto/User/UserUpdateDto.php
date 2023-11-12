@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Dto\User;
+use App\Dto\BaseDto;
 
-class UserUpdateDto
+class UserUpdateDto extends BaseDto
 {
     public function __construct(
         public string $name,

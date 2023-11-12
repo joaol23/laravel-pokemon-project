@@ -7,21 +7,22 @@ use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Exceptions\ObjectNotFound;
 use App\Models\User;
+use App\Repositories\User\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserService implements UserServiceContract
 {
+    public function __construct(
+        private readonly UserRepository $userRepository
+    ) {
+    }
+
     public function create(
         UserCreateDto $userCreateDto
     ): User {
         try {
-            $user = new User();
-            $user->name = $userCreateDto->name;
-            $user->email = $userCreateDto->email;
-            $user->password = $userCreateDto->getPublicPassword();
-
-            $user->save();
-
+            /** @var User */
+            $user = $this->userRepository->create($userCreateDto->toArray());
             return $user;
         } catch (\Exception $e) {
             throw new \DomainException("Erro ao inserir usuário!", 400);
@@ -31,7 +32,7 @@ class UserService implements UserServiceContract
     public function listAll(): Collection
     {
         try {
-            return User::all();
+            return $this->userRepository->all();
         } catch (\Exception $e) {
             throw new \DomainException("Erro ao listar usuários!", 400);
         }
@@ -40,8 +41,9 @@ class UserService implements UserServiceContract
     public function getById(int $id): User
     {
         try {
-            $this->userExists($id);
-            return User::find($id);
+            /** @var User */
+            $user = $this->userRepository->find($id);
+            return $user;
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Exception $e) {
@@ -51,15 +53,13 @@ class UserService implements UserServiceContract
 
     public function update(
         UserUpdateDto $userUpdateDto,
-        User $user
+        int $id
     ): User {
         try {
-            $user->update([
-                "name" => $userUpdateDto->name,
-                "email" => $userUpdateDto->email
-            ]);
-
-            return $user;
+            $this->userRepository->update($userUpdateDto->toArray(), $id);
+            return $this->getById($id);
+        } catch (ObjectNotFound $e) {
+            throw $e;
         } catch (\Exception $e) {
             throw new \DomainException("Erro ao atualizar dados do usuário!", 400);
         }
@@ -68,19 +68,11 @@ class UserService implements UserServiceContract
     public function inactive(int $id): bool
     {
         try {
-            $this->userExists($id);
-            return User::query()->where("id", $id)->delete();
+            return $this->userRepository->delete($id);
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Throwable $e) {
             throw new \DomainException("Erro ao inativar usuário!", 400);
-        }
-    }
-
-    private function userExists(int $id): void
-    {
-        if (!(User::where('id', $id)->exists())) {
-            throw new ObjectNotFound('Usuário');
         }
     }
 }

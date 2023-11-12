@@ -2,9 +2,10 @@
 
 namespace App\Dto\User;
 
+use App\Dto\BaseDto;
 use Illuminate\Support\Facades\Hash;
 
-class UserCreateDto
+class UserCreateDto extends BaseDto
 {
     public function __construct(
         public string $name,
@@ -13,8 +14,19 @@ class UserCreateDto
     ) {
     }
 
-    public function getPublicPassword(): string
+    private function getPublicPassword(): string
     {
         return Hash::make($this->password);
+    }
+
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+        return array_merge(
+            $array,
+            [
+                "password" => $this->getPublicPassword()
+            ]
+        );
     }
 }
