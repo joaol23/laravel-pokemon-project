@@ -65,11 +65,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy(User $user)
+    public function destroy(int $id)
     {
         return response()->json([
             "type" => $this->userService
-                ->inactive($user)
+                ->inactive($id)
         ]);
     }
 }

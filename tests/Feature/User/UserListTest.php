@@ -13,7 +13,6 @@ test('Listagem de usuários, com dois usuários', function () {
     expect($return)->toBeArray();
     expect($return)->toHaveCount(2);
 
-    expect((object) $return[0])->toHaveProperty('active', true);
     expect((object) $return[0])->toHaveProperties(['id', 'name', 'email']);
 });
 
@@ -38,7 +37,6 @@ test('Busca de usuário encontrado', function () {
     expect($returnObject)->toHaveProperty('id', $user->id);
     expect($returnObject)->toHaveProperty('email', $user->email);
     expect($returnObject)->toHaveProperty('name', $user->name);
-    expect($returnObject)->toHaveProperty('active', $user->active);
 });
 
 test('Busca de usuário, não encontrado', function () {

@@ -42,6 +42,8 @@ class UserService implements UserServiceContract
         try {
             $this->userExists($id);
             return User::find($id);
+        } catch (ObjectNotFound $e) {
+            throw $e;
         } catch (\Exception $e) {
             throw new ObjectNotFound('Usuário');
         }
@@ -63,10 +65,13 @@ class UserService implements UserServiceContract
         }
     }
 
-    public function inactive(User $user): bool
+    public function inactive(int $id): bool
     {
         try {
-            return $user->update(['active' => '0']);
+            $this->userExists($id);
+            return User::query()->where("id", $id)->delete();
+        } catch (ObjectNotFound $e) {
+            throw $e;
         } catch (\Throwable $e) {
             throw new \DomainException("Erro ao inativar usuário!", 400);
         }
