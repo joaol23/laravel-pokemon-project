@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AbstractRepository implements RepositoryContract
 {
-    protected static $model;
+    protected static Model|string $model = '';
 
     public static function all(): Collection
     {
@@ -42,16 +42,19 @@ class AbstractRepository implements RepositoryContract
             ->delete();
     }
 
-    protected static function loadModel(): Model
-    {
-        return app(static::$model);
-    }
-
     protected static function exists(
         int $id
     ): void {
         if (!(self::loadModel()::where('id', $id)->exists())) {
             throw new ObjectNotFound('Usuário');
         }
+    }
+
+    protected static function loadModel(): Model
+    {
+        if (!(self::$model instanceof Model)) {
+            self::$model = app(static::$model);
+        }
+        return self::$model;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryProvider extends ServiceProvider
@@ -19,6 +20,6 @@ class RepositoryProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->singleton(UserRepository::class, UserRepository::class);
     }
 }
