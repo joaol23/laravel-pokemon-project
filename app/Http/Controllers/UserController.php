@@ -7,7 +7,6 @@ use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
-use App\Models\User;
 use App\Utils\Params\ValidId;
 
 class UserController extends Controller

@@ -9,6 +9,7 @@ use App\Exceptions\ObjectNotFound;
 use App\Models\User;
 use App\Repositories\User\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceContract
 {
@@ -25,6 +26,7 @@ class UserService implements UserServiceContract
             $user = $this->userRepository->create($userCreateDto->toArray());
             return $user;
         } catch (\Exception $e) {
+            Log::error($e->getMessage(), $userCreateDto->toArray());
             throw new \DomainException("Erro ao inserir usuário!", 400);
         }
     }
@@ -34,6 +36,7 @@ class UserService implements UserServiceContract
         try {
             return $this->userRepository->all();
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new \DomainException("Erro ao listar usuários!", 400);
         }
     }
@@ -47,6 +50,7 @@ class UserService implements UserServiceContract
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new ObjectNotFound('Usuário');
         }
     }
@@ -61,6 +65,7 @@ class UserService implements UserServiceContract
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             throw new \DomainException("Erro ao atualizar dados do usuário!", 400);
         }
     }
@@ -72,6 +77,7 @@ class UserService implements UserServiceContract
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Throwable $e) {
+            Log::error($e->getMessage());
             throw new \DomainException("Erro ao inativar usuário!", 400);
         }
     }
