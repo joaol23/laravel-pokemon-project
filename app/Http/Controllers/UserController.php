@@ -7,7 +7,6 @@ use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
-use App\Models\User;
 use App\Utils\Params\ValidId;
 
 class UserController extends Controller
@@ -28,13 +27,12 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        $validatedData = (object) $request->validated();
         $userDto = new UserCreateDto(
-            $validatedData->name,
-            $validatedData->email,
-            $validatedData->password
+            $request->name,
+            $request->email,
+            $request->password
         );
-
+        
         return response()->json([
             "data" => $this->userService
                 ->create($userDto)
