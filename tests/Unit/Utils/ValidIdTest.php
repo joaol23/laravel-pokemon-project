@@ -5,9 +5,7 @@ use Illuminate\Validation\ValidationException;
 use \Illuminate\Support\Str;
 
 test("Deve retornar id com tipo int", function () {
-    $id = "3";
-
-    $validId = ValidId::validate($id);
+    $validId = ValidId::validate("3");
 
     expect($validId)->toBe(3);
     expect($validId)->toBeInt();
@@ -15,10 +13,10 @@ test("Deve retornar id com tipo int", function () {
 
 test("Não pode aceitar id inválido", function ($id) {
     ValidId::validate($id);
-})->with(
-    [
+})
+    ->with([
         "string aleatoria" => Str::random(),
         "string com numero" => "22f",
         "objeto vazio" => new stdClass()
-    ]
-)->throws(ValidationException::class, "O campo id deve ser um número.");
+    ])
+    ->throws(ValidationException::class, "O campo id deve ser um número.");

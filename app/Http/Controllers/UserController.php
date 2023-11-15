@@ -27,13 +27,12 @@ class UserController extends Controller
 
     public function store(UserCreateRequest $request)
     {
-        $validatedData = (object) $request->validated();
         $userDto = new UserCreateDto(
-            $validatedData->name,
-            $validatedData->email,
-            $validatedData->password
+            $request->name,
+            $request->email,
+            $request->password
         );
-
+        
         return response()->json([
             "data" => $this->userService
                 ->create($userDto)
