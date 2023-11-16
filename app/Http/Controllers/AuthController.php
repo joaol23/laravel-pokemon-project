@@ -28,7 +28,9 @@ class AuthController extends Controller
         $token = $this->authService->generateToken($user);
 
         return response()->json([
-            'token' => $token
+            "data" => [
+                'token' => $token
+            ]
         ]);
     }
 
@@ -46,7 +48,9 @@ class AuthController extends Controller
 
         $token = $this->authService->generateToken($user);
         return response()->json([
-            'token' => $token
+            "data" => [
+                'token' => $token
+            ]
         ]);
     }
 
@@ -54,8 +58,10 @@ class AuthController extends Controller
         Request $request
     ) {
         return response()->json([
-            'type' =>
-            $this->authService->deleteAllTokens($request->user())
+            "data" => [
+                'type' =>
+                $this->authService->deleteAllTokens($request->user())
+            ]
         ]);
     }
 }

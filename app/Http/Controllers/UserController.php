@@ -11,7 +11,6 @@ use App\Utils\Params\ValidId;
 
 class UserController extends Controller
 {
-
     public function __construct(
         private readonly UserServiceContract $userService
     ) {

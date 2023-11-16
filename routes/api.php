@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/login', [AuthController::class, 'auth'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('login');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
