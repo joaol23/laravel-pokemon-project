@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\AuthServiceContract;
 use App\Contracts\UserServiceContract;
+use App\Dto\Auth\LoginDto;
 use App\Dto\User\UserCreateDto;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,24 +15,19 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function __construct(
-        private readonly UserServiceContract $userService
+        private readonly UserServiceContract $userService,
+        private readonly AuthServiceContract $authService,
     ) {
     }
-    public function auth(Request $request)
+    public function auth(LoginRequest $loginRequest)
     {
-        $credentials = $request->only([
-            'email',
-            'password'
-        ]);
+        $loginDto = new LoginDto(
+            $loginRequest->email,
+            $loginRequest->password
+        );
+        $user = $this->authService->checkCredentials($loginDto);
+        $token = $this->authService->generateToken($user);
 
-        $user = User::where('email', $credentials['email'])->first();
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
-        }
-        $user->tokens()->delete();
-        $token = $user->createToken("user_" . $user->name)->plainTextToken;
         return response()->json([
             'token' => $token
         ]);
@@ -44,10 +42,9 @@ class AuthController extends Controller
         );
 
         $user = $this->userService
-        ->create($userDto);
-        
-        $user->tokens()->delete();
-        $token = $user->createToken("user_" . $user->name)->plainTextToken;
+            ->create($userDto);
+
+        $token = $this->authService->generateToken($user);
         return response()->json([
             'token' => $token
         ]);
@@ -55,9 +52,9 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
         return response()->json([
-            'type' => true
+            'type' =>
+            $this->authService->deleteAllTokens($request->user())
         ]);
     }
 }
