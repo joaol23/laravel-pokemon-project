@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response;
 
 class ObjectNotFound extends Exception
 {
@@ -10,7 +11,7 @@ class ObjectNotFound extends Exception
     {
         parent::__construct(
             "{$object} não encontrado!",
-            404
+            Response::HTTP_NOT_FOUND
         );
     }
 }

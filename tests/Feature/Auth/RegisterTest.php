@@ -1,33 +1,25 @@
 <?php
 
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
 use Tests\Objects\UserFakeTrait;
 use function Pest\Laravel\post;
 
-describe("Testagem do processo de criação de usuário", function () {
+describe("Teste do registro na api", function () {
     uses(UserFakeTrait::class);
-    
-    test('Adicionar novo usuário, sucesso', function () {
+
+    test('Registrar novo usuário, sucesso', function () {
         $newUser = $this->getFakeUser();
 
-        $return = (object) post(route("user.store"), $newUser)
+        $return = (object) post(route("register"), $newUser)
             ->assertStatus(201)->json("data");
 
-        expect($return)->toHaveProperty("name", $newUser["name"]);
-        expect($return)->toHaveProperty("email", $newUser["email"]);
-
-        $userDb = User::find($return->id);
-        expect($userDb)->toBeObject(User::class);
-        expect(Hash::check($newUser["password"], $userDb->password))->toBeTrue();
+        expect($return)->toHaveProperty("token");
     });
 
-    test('Adicionar usuário sem parâmetro, erro', function (string $parameterRemove) {
+    test('Registrar usuário sem parâmetro, erro', function (string $parameterRemove) {
         $newUser = $this->getFakeUser(email: "john" . $parameterRemove . "@smith.com");
         unset($newUser[$parameterRemove]);
 
-        $return = (object) post(route("user.store"), $newUser)
+        $return = (object) post(route("register"), $newUser)
             ->assertStatus(422)->json();
         expect($return)->toHaveProperty("message", "Dados inválidos");
         expect($return)->toHaveProperty("errors");
@@ -37,11 +29,11 @@ describe("Testagem do processo de criação de usuário", function () {
         );
     })->with(["name", "email", "password"]);
 
-    test('Adicionar dois emails iguais, erro', function () {
-        $return = (object) post(route("user.store"), $this->getFakeUser())
+    test('Registrar dois emails iguais, erro', function () {
+        $return = (object) post(route("register"), $this->getFakeUser())
             ->assertStatus(201);
 
-        $return = (object) post(route("user.store"), $this->getFakeUser())
+        $return = (object) post(route("register"), $this->getFakeUser())
             ->assertStatus(422)->json();
 
         expect($return)->toHaveProperty("message", "Dados inválidos");
@@ -52,8 +44,8 @@ describe("Testagem do processo de criação de usuário", function () {
         );
     });
 
-    test('Adicionar com confirmação de senha errada, erro', function () {
-        $return = (object) post(route("user.store"), $this->getFakeUser(password: "123456789"))
+    test('Registro com confirmação de senha errada, erro', function () {
+        $return = (object) post(route("register"), $this->getFakeUser(password: "123456789"))
             ->assertStatus(422)->json();
 
         expect($return)->toHaveProperty("message", "Dados inválidos");

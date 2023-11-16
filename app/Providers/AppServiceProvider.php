@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
-use App\Contracts\UserServiceContract;
+use App\Contracts\Services\AuthServiceContract;
+use App\Contracts\Services\UserServiceContract;
+use App\Services\Auth\AuthService;
 use App\Services\User\UserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(UserServiceContract::class, UserService::class);
+        $this->app->bind(AuthServiceContract::class, AuthService::class);
     }
 }

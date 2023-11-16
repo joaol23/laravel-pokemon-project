@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\UserServiceContract;
+use App\Contracts\Services\UserServiceContract;
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Utils\Params\ValidId;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
-
     public function __construct(
         private readonly UserServiceContract $userService
     ) {
@@ -32,11 +32,11 @@ class UserController extends Controller
             $request->email,
             $request->password
         );
-        
+
         return response()->json([
             "data" => $this->userService
                 ->create($userDto)
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     public function show(mixed $id)
