@@ -17,6 +17,7 @@ class AuthController extends Controller
         private readonly UserServiceContract $userService,
         private readonly AuthServiceContract $authService,
     ) {
+        $this->middleware("auth:sanctum")->only("logout");
     }
     public function auth(
         LoginRequest $loginRequest
