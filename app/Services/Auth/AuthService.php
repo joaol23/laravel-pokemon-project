@@ -4,6 +4,7 @@ namespace App\Services\Auth;
 
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Services\AuthServiceContract;
+use App\Dto\Auth\LoginDto;
 use App\Exceptions\InternalError;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
@@ -18,11 +19,11 @@ class AuthService implements AuthServiceContract
         private readonly UserRepositoryContract $userRepository
     ) {
     }
-    public function checkCredentials(\App\Dto\Auth\LoginDto $loginDto): User
+    public function checkCredentials(LoginDto $loginDto): User
     {
         try {
             $user = $this->userRepository->getByEmail($loginDto->email);
-            if (!$user || !Hash::check($loginDto->password, $user->password)) {
+            if (!Hash::check($loginDto->password, $user->password)) {
                 throw new AuthenticationException();
             }
 
