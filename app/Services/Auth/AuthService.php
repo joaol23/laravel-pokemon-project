@@ -2,7 +2,8 @@
 
 namespace App\Services\Auth;
 
-use App\Contracts\AuthServiceContract;
+use App\Contracts\Repository\UserRepositoryContract;
+use App\Contracts\Services\AuthServiceContract;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Hash;
@@ -10,9 +11,13 @@ use Illuminate\Support\Str;
 
 class AuthService implements AuthServiceContract
 {
+    public function __construct(
+        private readonly UserRepositoryContract $userRepository
+    ) {
+    }
     public function checkCredentials(\App\Dto\Auth\LoginDto $loginDto): User
     {
-        $user = User::where('email', $loginDto->email)->first();
+        $user = $this->userRepository->getByEmail($loginDto->email);
         if (!$user || !Hash::check($loginDto->password, $user->password)) {
             throw new AuthenticationException();
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Contracts\Services;
 
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;

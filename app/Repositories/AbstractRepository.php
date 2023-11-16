@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Contracts\RepositoryContract;
+use App\Contracts\Repository\RepositoryContract;
 use App\Exceptions\ObjectNotFound;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Contracts\UserServiceContract;
+use App\Contracts\Services\UserServiceContract;
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Http\Requests\User\UserCreateRequest;

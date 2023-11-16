@@ -2,19 +2,19 @@
 
 namespace App\Services\User;
 
-use App\Contracts\UserServiceContract;
+use App\Contracts\Repository\UserRepositoryContract;
+use App\Contracts\Services\UserServiceContract;
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Exceptions\ObjectNotFound;
 use App\Models\User;
-use App\Repositories\User\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceContract
 {
     public function __construct(
-        private readonly UserRepository $userRepository
+        private readonly UserRepositoryContract $userRepository
     ) {
     }
 
