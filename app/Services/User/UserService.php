@@ -9,6 +9,7 @@ use App\Dto\User\UserUpdateDto;
 use App\Exceptions\ObjectNotFound;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceContract
@@ -27,7 +28,7 @@ class UserService implements UserServiceContract
             return $user;
         } catch (\Exception $e) {
             Log::error($e->getMessage(), $userCreateDto->toArray());
-            throw new \DomainException("Erro ao inserir usuário!", 400);
+            throw new \DomainException("Erro ao inserir usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -37,7 +38,7 @@ class UserService implements UserServiceContract
             return $this->userRepository->all();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \DomainException("Erro ao listar usuários!", 400);
+            throw new \DomainException("Erro ao listar usuários!", Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -66,7 +67,7 @@ class UserService implements UserServiceContract
             throw $e;
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            throw new \DomainException("Erro ao atualizar dados do usuário!", 400);
+            throw new \DomainException("Erro ao atualizar dados do usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -78,7 +79,7 @@ class UserService implements UserServiceContract
             throw $e;
         } catch (\Throwable $e) {
             Log::error($e->getMessage());
-            throw new \DomainException("Erro ao inativar usuário!", 400);
+            throw new \DomainException("Erro ao inativar usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
 }

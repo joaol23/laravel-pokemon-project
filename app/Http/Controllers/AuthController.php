@@ -9,6 +9,7 @@ use App\Dto\User\UserCreateDto;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -51,7 +52,7 @@ class AuthController extends Controller
             "data" => [
                 'token' => $token
             ]
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
     public function logout(

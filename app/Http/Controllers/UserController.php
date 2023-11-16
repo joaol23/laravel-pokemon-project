@@ -8,6 +8,7 @@ use App\Dto\User\UserUpdateDto;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Utils\Params\ValidId;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -31,11 +32,11 @@ class UserController extends Controller
             $request->email,
             $request->password
         );
-        
+
         return response()->json([
             "data" => $this->userService
                 ->create($userDto)
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     public function show(mixed $id)

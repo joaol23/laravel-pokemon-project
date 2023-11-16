@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response;
 
 class InternalError extends Exception
 {
@@ -11,7 +12,7 @@ class InternalError extends Exception
     ) {
         parent::__construct(
             $message ?? "Erro interno.",
-            500
+            Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }
 }
