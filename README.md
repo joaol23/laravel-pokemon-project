@@ -2,7 +2,7 @@
 
 ### Planejamento
 
-- [planejamento](docs/planejamentos.md.md)
+- [planejamento](docs/planejamentos.md)
 
 ### Commits semânticos 📚
 
