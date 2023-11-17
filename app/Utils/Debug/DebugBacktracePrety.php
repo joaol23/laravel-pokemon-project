@@ -14,12 +14,12 @@ class DebugBacktracePrety
 
     private static function getDebugBacktrace()
     {
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 8);
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 10);
 
         $lastPaths = [];
 
         foreach ($backtrace as $trace) {
-            $fileTrace = isset($trace['file']) ? basename($trace['file']) : null;
+            $fileTrace = isset($trace['file']) ? str_replace(".php", "", basename($trace['file'])) : null;
 
             if (
                 !in_array($fileTrace, self::$filesExclude)
