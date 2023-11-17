@@ -6,11 +6,12 @@ use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Services\UserServiceContract;
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
+use App\Enum\LogsFolder;
 use App\Exceptions\ObjectNotFound;
 use App\Models\User;
+use App\Utils\Logging\CustomLogger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class UserService implements UserServiceContract
 {
@@ -27,7 +28,11 @@ class UserService implements UserServiceContract
             $user = $this->userRepository->create($userCreateDto->toArray());
             return $user;
         } catch (\Exception $e) {
-            Log::error($e->getMessage(), $userCreateDto->toArray());
+            CustomLogger::error(
+                "Error => " . $e->getMessage() . "\n"
+                    . "Informações usuario: " . print_r($userCreateDto->toArray(), true),
+                LogsFolder::USERS
+            );
             throw new \DomainException("Erro ao inserir usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
@@ -37,7 +42,10 @@ class UserService implements UserServiceContract
         try {
             return $this->userRepository->all();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            CustomLogger::error(
+                "Error => " . $e->getMessage(),
+                LogsFolder::USERS
+            );
             throw new \DomainException("Erro ao listar usuários!", Response::HTTP_BAD_REQUEST);
         }
     }
@@ -51,7 +59,10 @@ class UserService implements UserServiceContract
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            CustomLogger::error(
+                "Error => " . $e->getMessage(),
+                LogsFolder::USERS
+            );
             throw new ObjectNotFound('Usuário');
         }
     }
@@ -66,7 +77,11 @@ class UserService implements UserServiceContract
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            CustomLogger::error(
+                "Error => " . $e->getMessage() . "\n"
+                    . "Informações usuario: " . print_r($userUpdateDto->toArray(), true),
+                LogsFolder::USERS
+            );
             throw new \DomainException("Erro ao atualizar dados do usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
@@ -78,7 +93,11 @@ class UserService implements UserServiceContract
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Throwable $e) {
-            Log::error($e->getMessage());
+            CustomLogger::error(
+                "Error => " . $e->getMessage() . "\n"
+                    . "Id: " . $id,
+                LogsFolder::USERS
+            );
             throw new \DomainException("Erro ao inativar usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
