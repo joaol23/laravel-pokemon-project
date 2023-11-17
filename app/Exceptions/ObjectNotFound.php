@@ -2,16 +2,19 @@
 
 namespace App\Exceptions;
 
-use Exception;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
 
-class ObjectNotFound extends Exception
+class ObjectNotFound extends HttpResponseException
 {
     public function __construct(string $object)
     {
         parent::__construct(
-            "{$object} não encontrado!",
-            Response::HTTP_NOT_FOUND
+            response()->json([
+                "message" =>
+                "{$object} não encontrado!",
+                "type" => false
+            ], Response::HTTP_NOT_FOUND)
         );
     }
 }

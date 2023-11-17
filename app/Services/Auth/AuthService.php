@@ -5,8 +5,10 @@ namespace App\Services\Auth;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Services\AuthServiceContract;
 use App\Dto\Auth\LoginDto;
+use App\Enum\LogsFolder;
 use App\Exceptions\InternalError;
 use App\Models\User;
+use App\Utils\Logging\CustomLogger;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Hash;
@@ -28,19 +30,32 @@ class AuthService implements AuthServiceContract
             }
 
             return $user;
-        } catch (ModelNotFoundException|AuthenticationException $e) {
+        } catch (ModelNotFoundException | AuthenticationException $e) {
             throw new AuthenticationException();
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            throw new InternalError("Não foi possível realizar o login no momento.");
+            CustomLogger::error(
+                "Error => " . $e->getMessage() . "\n"
+                    . "Informações usuario: " . print_r($loginDto->toArray(), true),
+                LogsFolder::AUTH
+            );
+            throw new InternalError("Não foi possível realizar o login no momento!");
         }
     }
 
     public function generateToken(User $user): string
     {
-        $this->deleteAllTokens($user);
-        return $user->createToken(Str::random())
-            ->plainTextToken;
+        try {
+            $this->deleteAllTokens($user);
+            return $user->createToken(Str::random())
+                ->plainTextToken;
+        } catch (\Exception $e) {
+            CustomLogger::error(
+                "Error => ". $e->getMessage(). "\n"
+                   . "Informações usuario: ". print_r($user, true),
+                LogsFolder::AUTH
+            );
+            throw new InternalError("Token de acesso não pode ser gerado no momento!");
+        }
     }
 
     public function deleteAllTokens(User $user): bool
