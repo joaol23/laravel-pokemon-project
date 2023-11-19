@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\UserServiceContract;
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
+use App\Http\Middleware\OnlyAdmin;
+use App\Http\Middleware\OnlyChangeCurrentUser;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Utils\Params\ValidId;
@@ -15,6 +17,8 @@ class UserController extends Controller
     public function __construct(
         private readonly UserServiceContract $userService
     ) {
+        $this->middleware(OnlyAdmin::class)->only(['index', 'store']);
+        $this->middleware(OnlyChangeCurrentUser::class);
     }
 
     public function index()
@@ -39,16 +43,19 @@ class UserController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-    public function show(mixed $id)
-    {
+    public function show(
+        int $id
+    ) {
         return response()->json([
             "data" => $this->userService
                 ->getById(ValidId::validate($id))
         ]);
     }
 
-    public function update(UserUpdateRequest $request, int $id)
-    {
+    public function update(
+        UserUpdateRequest $request,
+        int $id
+    ) {
         $validatedData = (object) $request->validated();
         $userUpdateDto = new UserUpdateDto(
             $validatedData->name,
@@ -63,8 +70,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy(int $id)
-    {
+    public function destroy(
+        int $id
+    ) {
         return response()->json([
             "type" => $this->userService
                 ->inactive($id)

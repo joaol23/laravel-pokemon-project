@@ -14,13 +14,13 @@ describe("Testando o método checkCredentials", function () {
     beforeEach(function () {
         $this->userRepository = Mockery::mock(UserRepositoryContract::class);
     });
-    
+
     test('sucesso', function () {
         $this->userRepository
             ->shouldReceive('getByEmail')
             ->with('teste@teste.com')
             ->andReturn(new User(["password" => "12345678"]));
-        
+
         $this->authService = new AuthService($this->userRepository);
 
         $loginDto = new LoginDto(
@@ -28,10 +28,10 @@ describe("Testando o método checkCredentials", function () {
             "12345678"
         );
         $user = $this->authService->checkCredentials($loginDto);
-        
+
         expect($user)->toBeInstanceOf(User::class);
     });
-    
+
     test('Usuário com email não encontrado', function () {
         $this->userRepository
             ->shouldReceive('getByEmail')
@@ -45,7 +45,7 @@ describe("Testando o método checkCredentials", function () {
         );
         $this->authService->checkCredentials($loginDto);
     })->throws(AuthenticationException::class);
-    
+
     test('Usuário com senha errada', function () {
         $this->userRepository
             ->shouldReceive('getByEmail')
@@ -59,7 +59,7 @@ describe("Testando o método checkCredentials", function () {
         );
         $this->authService->checkCredentials($loginDto);
     })->throws(AuthenticationException::class);
-    
+
     test('Exception qualquer', function () {
         $this->userRepository
             ->shouldReceive('getByEmail')
@@ -72,5 +72,8 @@ describe("Testando o método checkCredentials", function () {
             "123456789"
         );
         $this->authService->checkCredentials($loginDto);
-    })->throws(InternalError::class, "Não foi possível realizar o login no momento.");
+    })->throws(
+        InternalError::class,
+        "Não foi possível realizar o login no momento!"
+    );
 });

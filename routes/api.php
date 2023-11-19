@@ -23,6 +23,6 @@ Route::post('/login', [AuthController::class, 'auth'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::middleware('auth:sanctum')->group(function() {
+    Route::apiResource('/user', UserController::class);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
-Route::apiResource('/user', UserController::class);
