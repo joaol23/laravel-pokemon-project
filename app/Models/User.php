@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enum\RolesUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,5 +47,10 @@ class User extends Authenticatable
     public function getDeletedAtColumn(): string
     {
         return 'inactived_at';
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === RolesUser::ADMIN->value;
     }
 }

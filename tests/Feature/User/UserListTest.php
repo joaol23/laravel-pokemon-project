@@ -1,14 +1,22 @@
 <?php
 
+use App\Enum\RolesUser;
 use App\Models\User;
 
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-describe("Testagem dos fluxos de listar usuário/s", function () {
-    test('Listagem de usuários, com dois usuários', function () {
-        User::factory(2)->create();
+describe("Testagem dos fluxos de listar usuários, somente admin", function () {
+    beforeEach(function () {
+        $this->userNormal = User::factory(User::class)->createOne();
+        $this->userAdmin = User::factory(User::class)->createOne([
+            'role' => RolesUser::ADMIN->value
+        ]);
+    });
 
-        $return = get(route('user.index'))
+    test('Listagem de usuários como admin com dois usuários, sucesso', function () {
+        $return = actingAs($this->userAdmin)
+            ->get(route('user.index'))
             ->assertOk()->json("data");
 
         expect($return)->toBeArray();
@@ -17,34 +25,20 @@ describe("Testagem dos fluxos de listar usuário/s", function () {
         expect((object) $return[0])->toHaveProperties(['id', 'name', 'email']);
     });
 
-    test('Listagem de usuários, sem usuários', function () {
-        $return = get(route('user.index'))
-            ->assertOk()->json("data");
+    test('Listagem de usuários como user normal, erro', function () {
+        $return = (object) actingAs($this->userNormal)
+            ->get(route('user.index'))
+            ->assertUnauthorized()->json();
 
-        expect($return)->toBeArray();
-        expect($return)->toHaveCount(0);
+        expect($return)->toHaveProperty('message', 'Não autorizado!');
+        expect($return)->toHaveProperty('type', false);
     });
 
-    test('Busca de usuário encontrado', function () {
-        $user = User::factory()->createOne();
+    test('Listagem de usuários deslogado, erro', function () {
+        $return = (object) get(route('user.index'))
+            ->assertUnauthorized()->json();
 
-        $return = get(route('user.show', $user->getKey()))
-            ->assertStatus(200)->json("data");
-
-        expect($return)->toBeArray();
-
-        $returnObject = (object) $return;
-
-        expect($returnObject)->toHaveProperty('id', $user->id);
-        expect($returnObject)->toHaveProperty('email', $user->email);
-        expect($returnObject)->toHaveProperty('name', $user->name);
-    });
-
-    test('Busca de usuário, não encontrado', function () {
-        $return = (object) get(route('user.show', 13143))
-            ->assertStatus(404)->json();
-
-        expect($return)->toHaveProperty('message', 'Usuário não encontrado!');
+        expect($return)->toHaveProperty('message', 'Não autorizado!');
         expect($return)->toHaveProperty('type', false);
     });
 });

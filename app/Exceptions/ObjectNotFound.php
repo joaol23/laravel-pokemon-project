@@ -9,10 +9,10 @@ class ObjectNotFound extends HttpResponseException
 {
     public function __construct(string $object)
     {
+        $this->message = "{$object} não encontrado!";
         parent::__construct(
             response()->json([
-                "message" =>
-                "{$object} não encontrado!",
+                "message" => $this->message,
                 "type" => false
             ], Response::HTTP_NOT_FOUND)
         );
