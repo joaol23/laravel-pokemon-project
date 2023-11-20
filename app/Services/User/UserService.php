@@ -33,7 +33,10 @@ class UserService implements UserServiceContract
                     . "Informações usuario: " . print_r($userCreateDto->toArray(), true),
                 LogsFolder::USERS
             );
-            throw new \DomainException("Erro ao inserir usuário!", Response::HTTP_BAD_REQUEST);
+            throw new \DomainException(
+                "Erro ao inserir usuário!",
+                Response::HTTP_BAD_REQUEST
+            );
         }
     }
 

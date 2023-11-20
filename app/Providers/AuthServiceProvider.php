@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 use Opcodes\LogViewer\Facades\LogViewer;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,6 +26,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         LogViewer::auth(function ($request) {
             return App::environment("local");
+        });
+
+        Gate::define('viewApiDocs', function (User $user) {
+            return $user->isAdmin();
         });
     }
 }
