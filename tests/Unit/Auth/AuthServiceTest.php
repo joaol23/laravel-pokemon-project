@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\Auth\AuthService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\identicalTo;
 
@@ -20,7 +21,7 @@ describe("Testando o método checkCredentials", function () {
             ->shouldReceive('getByEmail')
             ->with('teste@teste.com')
             ->andReturn(new User(["password" => "12345678"]));
-
+            
         $this->authService = new AuthService($this->userRepository);
 
         $loginDto = new LoginDto(

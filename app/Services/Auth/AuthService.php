@@ -9,10 +9,10 @@ use App\Enum\LogsFolder;
 use App\Exceptions\InternalError;
 use App\Models\User;
 use App\Utils\Logging\CustomLogger;
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class AuthService implements AuthServiceContract
@@ -21,21 +21,20 @@ class AuthService implements AuthServiceContract
         private readonly UserRepositoryContract $userRepository
     ) {
     }
+
     public function checkCredentials(LoginDto $loginDto): User
     {
         try {
             $user = $this->userRepository->getByEmail($loginDto->email);
-            if (!Hash::check($loginDto->password, $user->password)) {
-                throw new AuthenticationException();
-            }
-
-            return $user;
+            
+            return (!Hash::check($loginDto->password, $user->password))
+                ? throw new AuthenticationException()
+                : $user;
         } catch (ModelNotFoundException | AuthenticationException $e) {
             throw new AuthenticationException();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             CustomLogger::error(
-                "Error => " . $e->getMessage() . "\n"
-                    . "Informações usuario: " . print_r($loginDto->toArray(), true),
+                "Error => " . $e->getMessage() . "\n" . "Informações usuario: " . print_r($loginDto->toArray(), true),
                 LogsFolder::AUTH
             );
             throw new InternalError("Não foi possível realizar o login no momento!");
@@ -46,12 +45,10 @@ class AuthService implements AuthServiceContract
     {
         try {
             $this->deleteAllTokens($user);
-            return $user->createToken(Str::random())
-                ->plainTextToken;
-        } catch (\Exception $e) {
+            return $user->createToken(Str::random())->plainTextToken;
+        } catch (Exception $e) {
             CustomLogger::error(
-                "Error => ". $e->getMessage(). "\n"
-                   . "Informações usuario: ". print_r($user, true),
+                "Error => " . $e->getMessage() . "\n" . "Informações usuario: " . print_r($user, true),
                 LogsFolder::AUTH
             );
             throw new InternalError("Token de acesso não pode ser gerado no momento!");

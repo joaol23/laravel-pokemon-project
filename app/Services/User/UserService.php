@@ -11,7 +11,7 @@ use App\Exceptions\ObjectNotFound;
 use App\Models\User;
 use App\Utils\Logging\CustomLogger;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserService implements UserServiceContract
 {
@@ -25,8 +25,7 @@ class UserService implements UserServiceContract
     ): User {
         try {
             /** @var User */
-            $user = $this->userRepository->create($userCreateDto->toArray());
-            return $user;
+            return $this->userRepository->create($userCreateDto->toArray());
         } catch (\Exception $e) {
             CustomLogger::error(
                 "Error => " . $e->getMessage() . "\n"
@@ -54,8 +53,7 @@ class UserService implements UserServiceContract
     {
         try {
             /** @var User */
-            $user = $this->userRepository->find($id);
-            return $user;
+            return $this->userRepository->find($id);
         } catch (ObjectNotFound $e) {
             throw $e;
         } catch (\Exception $e) {

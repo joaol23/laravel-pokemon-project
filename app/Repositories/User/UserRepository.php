@@ -14,10 +14,9 @@ class UserRepository extends AbstractRepository implements UserRepositoryContrac
     public function getByEmail(string $email): User
     {
         /** @var User */
-        $user = $this->loadModel()
+        return $this->loadModel()
             ->query()
             ->where('email', $email)
             ->firstOrFail();
-        return $user;
     }
 }
