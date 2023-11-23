@@ -8,23 +8,27 @@ use App\Dto\Auth\LoginDto;
 use App\Dto\User\UserCreateDto;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\User\UserCreateRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
     public function __construct(
         private readonly UserServiceContract $userService,
         private readonly AuthServiceContract $authService,
-    ) {
+    )
+    {
         $this->middleware("auth:sanctum")->only("logout");
     }
+
     public function auth(
         LoginRequest $loginRequest
-    ) {
+    ): JsonResponse
+    {
         $loginDto = new LoginDto(
-            $loginRequest->email,
-            $loginRequest->password
+            $loginRequest->get('email'),
+            $loginRequest->get('password')
         );
         $user = $this->authService->checkCredentials($loginDto);
         $token = $this->authService->generateToken($user);
@@ -38,11 +42,12 @@ class AuthController extends Controller
 
     public function register(
         UserCreateRequest $userCreateRequest
-    ) {
+    ): JsonResponse
+    {
         $userDto = new UserCreateDto(
-            $userCreateRequest->name,
-            $userCreateRequest->email,
-            $userCreateRequest->password
+            $userCreateRequest->get('email'),
+            $userCreateRequest->get('email'),
+            $userCreateRequest->get('password')
         );
 
         $user = $this->userService
@@ -58,11 +63,12 @@ class AuthController extends Controller
 
     public function logout(
         Request $request
-    ) {
+    ): JsonResponse
+    {
         return response()->json([
             "data" => [
                 'type' =>
-                $this->authService->deleteAllTokens($request->user())
+                    $this->authService->deleteAllTokens($request->user())
             ]
         ]);
     }
