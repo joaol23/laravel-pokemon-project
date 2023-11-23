@@ -11,8 +11,6 @@ test('E-mail enviado com nome do usuário novo', function () {
     $notification = new UserCreatedNotification();
     $rendered = $notification->toMail($userFake)->render();
 
-    $this->assertStringContainsString(
-        "Seja bem vindo à nossa plataforma " . $userFake->getAttribute('name'),
-        $rendered
-    );
+    expect((string) $rendered)
+        ->toContain("Seja bem vindo à nossa plataforma " . $userFake->getAttribute('name'));
 });
