@@ -26,7 +26,7 @@ class AuthService implements AuthServiceContract
     {
         try {
             $user = $this->userRepository->getByEmail($loginDto->email);
-            
+
             return (!Hash::check($loginDto->password, $user->password))
                 ? throw new AuthenticationException()
                 : $user;

@@ -21,7 +21,7 @@ describe("Testando o método checkCredentials", function () {
             ->shouldReceive('getByEmail')
             ->with('teste@teste.com')
             ->andReturn(new User(["password" => "12345678"]));
-            
+
         $this->authService = new AuthService($this->userRepository);
 
         $loginDto = new LoginDto(
