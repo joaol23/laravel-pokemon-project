@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Clients\Pokemon\PokeApi\Interfaces;
+namespace App\Clients\Pokemon\PokeApi\V2\Entities\interfaces;
 
 use App\Clients\Pokemon\PokeApi\V2\Entities\ResourceListEntity;
 

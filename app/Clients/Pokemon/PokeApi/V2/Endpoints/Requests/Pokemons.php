@@ -2,9 +2,9 @@
 
 namespace App\Clients\Pokemon\PokeApi\V2\Endpoints\Requests;
 
-use App\Clients\Pokemon\PokeApi\Interfaces\EntityInterface;
-use App\Clients\Pokemon\PokeApi\Interfaces\EntityListInterface;
 use App\Clients\Pokemon\PokeApi\V2\Endpoints\PaginateGetRequest;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityInterface;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityListInterface;
 use App\Clients\Pokemon\PokeApi\V2\Entities\Lists\PokemonListEntity;
 use App\Clients\Pokemon\PokeApi\V2\Entities\ResourceListEntity;
 

@@ -2,7 +2,8 @@
 
 namespace App\Clients\Pokemon\PokeApi\V2\Entities;
 
-use App\Clients\Pokemon\PokeApi\Interfaces\EntityListInterface;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityInterface;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityListInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 

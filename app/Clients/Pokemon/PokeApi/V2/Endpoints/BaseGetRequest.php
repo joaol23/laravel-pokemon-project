@@ -3,11 +3,11 @@
 namespace App\Clients\Pokemon\PokeApi\V2\Endpoints;
 
 use App\Clients\Pokemon\PokeApi\Interfaces\ApiServiceInterface;
-use App\Clients\Pokemon\PokeApi\Interfaces\EntityInterface;
-use App\Clients\Pokemon\PokeApi\Interfaces\EntityListInterface;
 use App\Clients\Pokemon\PokeApi\Interfaces\GetRequestInterface;
 use App\Clients\Pokemon\PokeApi\Interfaces\PaginationRequestInterface;
 use App\Clients\Pokemon\PokeApi\Interfaces\RequestWithDataInterface;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityInterface;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityListInterface;
 use App\Enum\LogsFolder;
 use App\Utils\Logging\CustomLogger;
 

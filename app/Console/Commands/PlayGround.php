@@ -26,6 +26,6 @@ class PlayGround extends Command
      */
     public function handle()
     {
-        dd(PokeApi::pokemons()->limit(10)->page(1)->get());
+        dd(PokeApi::pokemon()->namePokemon("charmander")->get());
     }
 }

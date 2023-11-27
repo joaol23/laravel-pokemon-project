@@ -2,8 +2,9 @@
 
 namespace App\Clients\Pokemon\PokeApi\V2\Entities\Lists;
 
-use App\Clients\Pokemon\PokeApi\Interfaces\EntityInterface;
-use App\Clients\Pokemon\PokeApi\V2\Entities\ResourceListEntity;
+use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityInterface;
+use App\Clients\Pokemon\PokeApi\V2\Entities\Unit\PokemonEntity;
+use Illuminate\Support\Facades\Http;
 
 readonly class PokemonListEntity implements EntityInterface
 {
@@ -17,4 +18,7 @@ readonly class PokemonListEntity implements EntityInterface
         $this->url = data_get($data, 'url');
     }
 
+    public function details(): PokemonEntity {
+        return new PokemonEntity(Http::get($this->url)->json());
+    }
 }
