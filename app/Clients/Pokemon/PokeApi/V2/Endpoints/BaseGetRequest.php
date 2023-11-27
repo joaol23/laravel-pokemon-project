@@ -4,8 +4,10 @@ namespace App\Clients\Pokemon\PokeApi\V2\Endpoints;
 
 use App\Clients\Pokemon\PokeApi\Interfaces\ApiServiceInterface;
 use App\Clients\Pokemon\PokeApi\Interfaces\EntityInterface;
+use App\Clients\Pokemon\PokeApi\Interfaces\EntityListInterface;
 use App\Clients\Pokemon\PokeApi\Interfaces\GetRequestInterface;
 use App\Clients\Pokemon\PokeApi\Interfaces\PaginationRequestInterface;
+use App\Clients\Pokemon\PokeApi\Interfaces\RequestWithDataInterface;
 use App\Enum\LogsFolder;
 use App\Utils\Logging\CustomLogger;
 
@@ -18,7 +20,7 @@ abstract class BaseGetRequest implements GetRequestInterface
     {
     }
 
-    public function get(): mixed
+    public function get(): EntityInterface|EntityListInterface
     {
         try {
             $dataRequest = $this->getRequestData();
@@ -35,7 +37,7 @@ abstract class BaseGetRequest implements GetRequestInterface
         }
     }
 
-    private function transform(array $data): EntityInterface {
+    private function transform(array $data): EntityInterface|EntityListInterface {
         return $this->entity($data);
     }
 
@@ -48,11 +50,14 @@ abstract class BaseGetRequest implements GetRequestInterface
                 "offset" => $this->offset
             ];
         }
-        return array_merge($data, $this->dataRequest() ?? []);
+
+        if ($this instanceof RequestWithDataInterface){
+            $data = array_merge($data, $this->dataRequest());
+        }
+        return $data;
     }
 
     abstract protected function uri(): string;
 
-    abstract protected function dataRequest(): ?array;
-    abstract protected function entity(array $data): EntityInterface;
+    abstract protected function entity(array $data): EntityInterface|EntityListInterface;
 }

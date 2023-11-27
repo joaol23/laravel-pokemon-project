@@ -8,13 +8,17 @@ abstract class PaginateGetRequest extends BaseGetRequest implements PaginationRe
 {
     protected int $offset = 0, $limit = 100;
 
-    public function page(int $page): static
+    public function page(
+        int $page
+    ): static
     {
         $this->offset = $page === 1 ? 0 : --$page * $this->limit;
         return $this;
     }
 
-    public function limit(int $limit): static
+    public function limit(
+        int $limit
+    ): static
     {
         $this->limit = $limit;
         return $this;

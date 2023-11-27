@@ -26,6 +26,6 @@ class PlayGround extends Command
      */
     public function handle()
     {
-        dd(PokeApi::pokemons()->limit(10)->page(2)->get());
+        dd(PokeApi::pokemons()->limit(10)->page(1)->get());
     }
 }
