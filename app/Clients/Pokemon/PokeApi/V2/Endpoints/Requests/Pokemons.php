@@ -16,7 +16,7 @@ class Pokemons extends PaginateGetRequest
         return 'pokemon';
     }
 
-    protected function entity(array $data): EntityInterface|EntityListInterface
+    protected function entity(array $data): EntityListInterface
     {
         return new ResourceListEntity(
             $data,

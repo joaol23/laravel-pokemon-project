@@ -23,4 +23,14 @@ abstract class PaginateGetRequest extends BaseGetRequest implements PaginationRe
         $this->limit = $limit;
         return $this;
     }
+
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    public function getOffset(): int
+    {
+        return $this->offset;
+    }
 }

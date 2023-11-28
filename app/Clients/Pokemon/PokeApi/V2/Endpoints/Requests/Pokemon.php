@@ -27,7 +27,7 @@ class Pokemon extends BaseGetRequest
         return "pokemon/{$this->pokemon}";
     }
 
-    protected function entity(array $data): EntityInterface|EntityListInterface
+    protected function entity(array $data): EntityInterface
     {
         return new PokemonEntity($data);
     }

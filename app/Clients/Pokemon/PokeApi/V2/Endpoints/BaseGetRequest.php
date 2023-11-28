@@ -28,7 +28,7 @@ abstract class BaseGetRequest implements GetRequestInterface
                 ->api()
                 ->get($this->uri(), $dataRequest)
                 ->json());
-        }catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             CustomLogger::error(
                 "Error => " . $e->getMessage(),
                 LogsFolder::API_EXTERNAL_POKEMON
@@ -37,7 +37,12 @@ abstract class BaseGetRequest implements GetRequestInterface
         }
     }
 
-    private function transform(array $data): EntityInterface|EntityListInterface {
+    abstract protected function uri(): string;
+
+    abstract protected function entity(array $data): EntityInterface|EntityListInterface;
+
+    private function transform(array $data): EntityInterface|EntityListInterface
+    {
         return $this->entity($data);
     }
 
@@ -46,18 +51,14 @@ abstract class BaseGetRequest implements GetRequestInterface
         $data = [];
         if ($this instanceof PaginationRequestInterface) {
             $data = [
-                "limit" => $this->limit,
-                "offset" => $this->offset
+                "limit" => $this->getLimit(),
+                "offset" => $this->getOffset()
             ];
         }
 
-        if ($this instanceof RequestWithDataInterface){
+        if ($this instanceof RequestWithDataInterface) {
             $data = array_merge($data, $this->dataRequest());
         }
         return $data;
     }
-
-    abstract protected function uri(): string;
-
-    abstract protected function entity(array $data): EntityInterface|EntityListInterface;
 }

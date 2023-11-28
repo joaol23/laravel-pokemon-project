@@ -30,7 +30,7 @@ class AuthService implements AuthServiceContract
             return (!Hash::check($loginDto->password, $user->password))
                 ? throw new AuthenticationException()
                 : $user;
-        } catch (ModelNotFoundException | AuthenticationException $e) {
+        } catch (ModelNotFoundException|AuthenticationException $e) {
             throw new AuthenticationException();
         } catch (Exception $e) {
             CustomLogger::error(

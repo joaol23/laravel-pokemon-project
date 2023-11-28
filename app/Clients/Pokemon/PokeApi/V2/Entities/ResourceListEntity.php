@@ -2,14 +2,13 @@
 
 namespace App\Clients\Pokemon\PokeApi\V2\Entities;
 
-use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityInterface;
 use App\Clients\Pokemon\PokeApi\V2\Entities\interfaces\EntityListInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 readonly class ResourceListEntity implements EntityListInterface
 {
-    public Collection $results;
+    private Collection $results;
     public int $count;
     public ?string $previous;
     public ?string $next;
@@ -56,4 +55,11 @@ readonly class ResourceListEntity implements EntityListInterface
             , $this->entityClass
         );
     }
+
+    public function results(): Collection
+    {
+        return $this->results;
+    }
+
+
 }
