@@ -19,6 +19,10 @@ uses(
     Tests\TestCase::class,
 )->in('Unit');
 
+uses(
+    \Tests\FakeHttp::class,
+)->beforeEach(fn() => $this->fake())->in('Unit/External');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations

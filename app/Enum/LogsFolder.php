@@ -9,4 +9,6 @@ Enum LogsFolder: string
     case API_EXTERNAL_POKEMON = 'external/pokemons';
 
     case POKEMON = 'pokemons';
+
+    case POKEMON_TYPES = 'pokemons_types';
 }

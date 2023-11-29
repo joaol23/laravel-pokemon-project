@@ -43,7 +43,7 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
                 );
             }
 
-            $this->pokemonService->create($pokemonCreateDto);
+            $this->pokemonService->create($pokemonCreateDto, $pokemonTypes);
         }
     }
 }

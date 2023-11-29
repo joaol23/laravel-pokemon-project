@@ -20,7 +20,7 @@ return new class extends Migration {
                 ->on('pokemon')->onDelete('cascade');
 
             $table->foreign('type_pokemon_id')->references("id")
-                ->on('typesPokemon')->onDelete('cascade');
+                ->on('pokemonTypes')->onDelete('cascade');
         });
     }
 

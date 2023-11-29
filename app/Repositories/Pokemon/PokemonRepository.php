@@ -3,16 +3,19 @@
 namespace App\Repositories\Pokemon;
 
 use App\Contracts\Repository\PokemonRepositoryContract;
+use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Models\Pokemon\Pokemon;
-use App\Models\User;
-use App\Repositories\AbstractRepository;
+use App\Repositories\CrudRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class PokemonRepository extends AbstractRepository implements PokemonRepositoryContract
+class PokemonRepository extends CrudRepository implements PokemonRepositoryContract
 {
     protected static Model|string $model = Pokemon::class;
-    public function setTypes(): bool
-    {
-        // TODO: Implement setTypes() method.
+
+    public function setTypes(
+        PokemonListTypesCreateDto $pokemonTypesCreateDto,
+        Pokemon $pokemon
+    ): bool {
+        //todo
     }
 }

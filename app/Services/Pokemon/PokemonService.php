@@ -4,6 +4,7 @@ namespace App\Services\Pokemon;
 
 use App\Contracts\Repository\PokemonRepositoryContract;
 use App\Contracts\Services\PokemonServiceContract;
+use App\Contracts\Services\PokemonTypesServiceContract;
 use App\Dto\Pokemon\PokemonCreateDto;
 use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Enum\LogsFolder;
@@ -16,7 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 class PokemonService implements PokemonServiceContract
 {
     public function __construct(
-        private readonly PokemonRepositoryContract $pokemonRepository
+        private readonly PokemonRepositoryContract $pokemonRepository,
+        private readonly PokemonTypesServiceContract $pokemonTypesService
     ) {
     }
 
@@ -26,8 +28,12 @@ class PokemonService implements PokemonServiceContract
     ): Pokemon {
         try {
             /* @var Pokemon */
-            return $this->pokemonRepository
+            $pokemon = $this->pokemonRepository
                 ::create($pokemonCreateDto->toArray());
+
+            foreach ($pokemonListTypesCreateDto->types as $type) {
+                $this->pokemonTypesService->create($type);
+            }
         } catch (\Throwable $exception) {
             CustomLogger::error(
                 "Erro criação de pokemon => " . $exception->getMessage()
