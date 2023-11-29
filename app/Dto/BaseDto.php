@@ -2,7 +2,7 @@
 
 namespace App\Dto;
 
-abstract class BaseDto
+abstract class BaseDto implements BaseDtoInterface
 {
     public function toArray(): array
     {

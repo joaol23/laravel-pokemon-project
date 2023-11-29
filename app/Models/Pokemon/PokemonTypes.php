@@ -10,7 +10,6 @@ class PokemonTypes extends Model
     use HasFactory;
 
     public $timestamps = false;
-    public $table = "pokemonTypes";
     public static array $colorsTypes = [
         "normal" => "white",
         "fire" => "red",

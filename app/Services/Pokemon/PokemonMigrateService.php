@@ -26,7 +26,6 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
             ->limit($limit)
             ->page($page)
             ->get();
-
         foreach ($pokemons->results() as $pokemon) {
             /* @var PokemonEntity $pokemonDetail */
             $pokemonDetail = $pokemon->details();
@@ -36,14 +35,25 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
                 $pokemonDetail->imageUrl
             );
 
-            $pokemonTypes = new PokemonListTypesCreateDto();
-            foreach ($pokemonDetail->types as $type) {
-                $pokemonTypes->addType(
-                    new PokemonTypeCreateDto($type)
-                );
-            }
+            $pokemonTypes = $this->getTypesPokemonDto($pokemonDetail);
 
             $this->pokemonService->create($pokemonCreateDto, $pokemonTypes);
         }
+    }
+
+    /**
+     * @param PokemonEntity $pokemonDetail
+     * @return PokemonListTypesCreateDto
+     */
+    public function getTypesPokemonDto(
+        PokemonEntity $pokemonDetail
+    ): PokemonListTypesCreateDto {
+        $pokemonTypes = new PokemonListTypesCreateDto();
+        foreach ($pokemonDetail->types as $type) {
+            $pokemonTypes->add(
+                new PokemonTypeCreateDto($type)
+            );
+        }
+        return $pokemonTypes;
     }
 }

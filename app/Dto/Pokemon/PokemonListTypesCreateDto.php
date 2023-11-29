@@ -7,7 +7,7 @@ class PokemonListTypesCreateDto
     /* @var PokemonTypeCreateDto[] */
     public array $types;
 
-    public function addType(PokemonTypeCreateDto $type): void
+    public function add(PokemonTypeCreateDto $type): void
     {
         $this->types[] = $type;
     }

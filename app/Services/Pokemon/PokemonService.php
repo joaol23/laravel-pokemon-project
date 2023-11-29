@@ -17,23 +17,25 @@ use Symfony\Component\HttpFoundation\Response;
 class PokemonService implements PokemonServiceContract
 {
     public function __construct(
-        private readonly PokemonRepositoryContract $pokemonRepository,
+        private readonly PokemonRepositoryContract   $pokemonRepository,
         private readonly PokemonTypesServiceContract $pokemonTypesService
     ) {
     }
 
     public function create(
-        PokemonCreateDto $pokemonCreateDto,
+        PokemonCreateDto          $pokemonCreateDto,
         PokemonListTypesCreateDto $pokemonListTypesCreateDto
     ): Pokemon {
         try {
-            /* @var Pokemon */
+            /* @var Pokemon $pokemon */
             $pokemon = $this->pokemonRepository
                 ::create($pokemonCreateDto->toArray());
 
-            foreach ($pokemonListTypesCreateDto->types as $type) {
-                $this->pokemonTypesService->create($type);
-            }
+            $pokemonTypes = $this->pokemonTypesService->create(
+                $pokemonListTypesCreateDto
+            );
+            $this->pokemonRepository->setTypes($pokemon, $pokemonTypes);
+            return $pokemon;
         } catch (\Throwable $exception) {
             CustomLogger::error(
                 "Erro criação de pokemon => " . $exception->getMessage()

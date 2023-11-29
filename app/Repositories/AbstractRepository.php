@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class AbstractRepository
 {
-    protected static Model|string $model = '';
+    protected static string $model = '';
 
     protected static function exists(
         int $id
@@ -21,9 +21,6 @@ abstract class AbstractRepository
 
     protected static function loadModel(): Model
     {
-        if (!(self::$model instanceof Model)) {
-            self::$model = app(static::$model);
-        }
-        return self::$model;
+        return app(static::$model);
     }
 }

@@ -7,9 +7,9 @@ use App\Dto\BaseDto;
 class PokemonCreateDto extends BaseDto
 {
     public function __construct(
-        public int $pokemonId,
+        public int $pokemon_id,
         public string $name,
-        public string $imageUrl
+        public string $image
     ) {
     }
 }

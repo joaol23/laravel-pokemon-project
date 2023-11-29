@@ -4,11 +4,12 @@ namespace App\Services\Pokemon;
 
 use App\Contracts\Repository\PokemonTypesRepositoryContract;
 use App\Contracts\Services\PokemonTypesServiceContract;
-use App\Dto\Pokemon\PokemonTypeCreateDto;
+use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Enum\LogsFolder;
 use App\Models\Pokemon\PokemonTypes;
 use App\Utils\Logging\CustomLogger;
 use Illuminate\Database\Eloquent\Collection;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class PokemonTypesService implements PokemonTypesServiceContract
@@ -18,23 +19,33 @@ class PokemonTypesService implements PokemonTypesServiceContract
     ) {
     }
 
+
+    /* @return PokemonTypes[] */
     public function create(
-        PokemonTypeCreateDto $pokemonTypesCreateDto
-    ): PokemonTypes {
+        PokemonListTypesCreateDto $pokemonListTypesCreateDto
+    ): array {
         try {
-            $pokemonType = $this->getByName($pokemonTypesCreateDto->name);
-            if ($pokemonType) {
-                return $pokemonType;
+            $types = [];
+            foreach ($pokemonListTypesCreateDto->types as $type) {
+                $pokemonType = $this->getByName($type->name);
+                if ($pokemonType) {
+                    $types[] = $pokemonType;
+                    continue;
+                }
+                $types[] = $this->pokemonTypesRepository::create(
+                    $type->toArray()
+                );
             }
-            /* @var PokemonTypes */
-            return $this->pokemonTypesRepository::create(
-                $pokemonTypesCreateDto->toArray()
-            );
+            return $types;
         } catch (Throwable $e) {
             CustomLogger::error(
                 "Erro criação de tipos para pokemons => " . $e->getMessage()
-                . "\n Tipos => " . print_r($pokemonTypesCreateDto->toArray(), true),
+                . "\n Tipos => " . print_r($pokemonListTypesCreateDto->types, true),
                 LogsFolder::POKEMON_TYPES
+            );
+            throw new \DomainException(
+                "Erro criação de tipos para pokemons",
+                Response::HTTP_BAD_REQUEST
             );
         }
     }

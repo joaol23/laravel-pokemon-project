@@ -2,15 +2,19 @@
 
 namespace App\Contracts\Services;
 
-use App\Dto\Pokemon\PokemonTypeCreateDto;
+use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Models\Pokemon\PokemonTypes;
 use Illuminate\Database\Eloquent\Collection;
 
 interface PokemonTypesServiceContract
 {
+
+    /**
+     * @return PokemonTypes[]
+     */
     public function create(
-        PokemonTypeCreateDto $pokemonListTypesCreateDto
-    ): PokemonTypes;
+        PokemonListTypesCreateDto $pokemonListTypesCreateDto
+    ): array;
 
     public function listAll(): Collection;
 

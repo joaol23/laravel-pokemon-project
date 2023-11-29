@@ -3,9 +3,10 @@
 namespace App\Dto\Pokemon;
 
 use App\Dto\BaseDto;
+use App\Dto\BaseDtoInterface;
 use App\Models\Pokemon\PokemonTypes;
 
-class PokemonTypeCreateDto extends BaseDto
+class PokemonTypeCreateDto extends BaseDto implements BaseDtoInterface
 {
     public string $color;
 

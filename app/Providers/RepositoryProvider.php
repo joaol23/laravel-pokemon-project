@@ -6,7 +6,7 @@ use App\Contracts\Repository\PokemonRepositoryContract;
 use App\Contracts\Repository\PokemonTypesRepositoryContract;
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Repositories\Pokemon\PokemonRepository;
-use App\Repositories\PokemonTypesRepository;
+use App\Repositories\Pokemon\PokemonTypesRepository;
 use App\Repositories\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
 

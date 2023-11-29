@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pokemonTypes', function (Blueprint $table) {
+        Schema::create('pokemon_types', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->string("color")->default("white");
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pokemonTypes');
+        Schema::dropIfExists('pokemon_types');
     }
 };
