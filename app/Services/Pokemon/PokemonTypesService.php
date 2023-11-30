@@ -20,7 +20,6 @@ class PokemonTypesService implements PokemonTypesServiceContract
     ) {
     }
 
-
     /* @return PokemonTypes[] */
     public function create(
         PokemonListTypesCreateDto $pokemonListTypesCreateDto

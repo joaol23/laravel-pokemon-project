@@ -2,6 +2,9 @@
 
 namespace App\Models\Pokemon;
 
+
+use Database\Factories\PokemonTypesFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,4 +42,11 @@ class PokemonTypes extends Model
         'name',
         'color'
     ];
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): Factory
+    {
+        return PokemonTypesFactory::new();
+    }
 }
