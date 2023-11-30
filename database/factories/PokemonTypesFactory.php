@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Pokemon\PokemonTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +10,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PokemonTypesFactory extends Factory
 {
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     */
+    protected $model = PokemonTypes::class;
     /**
      * Define the model's default state.
      *

@@ -3,6 +3,7 @@
 namespace App\Services\Pokemon;
 
 use App\Clients\Pokemon\PokeApi\Facade\PokeApi;
+use App\Clients\Pokemon\PokeApi\V2\Entities\Lists\PokemonListEntity;
 use App\Clients\Pokemon\PokeApi\V2\Entities\Unit\PokemonEntity;
 use App\Contracts\Services\PokemonMigrateServiceContract;
 use App\Contracts\Services\PokemonServiceContract;
@@ -26,11 +27,12 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
             ->limit($limit)
             ->page($page)
             ->get();
+        /* @var PokemonListEntity $pokemon */
         foreach ($pokemons->results() as $pokemon) {
             if ($this->pokemonService->existsByName($pokemon->name)) {
                 continue;
             }
-            /* @var PokemonEntity $pokemonDetail */
+
             $pokemonDetail = $pokemon->details();
             $pokemonCreateDto = new PokemonCreateDto(
                 $pokemonDetail->id,
@@ -39,24 +41,19 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
             );
 
             $pokemonTypes = $this->getTypesPokemonDto($pokemonDetail);
-
             $this->pokemonService->create($pokemonCreateDto, $pokemonTypes);
         }
     }
 
-    /**
-     * @param PokemonEntity $pokemonDetail
-     * @return PokemonListTypesCreateDto
-     */
     public function getTypesPokemonDto(
         PokemonEntity $pokemonDetail
     ): PokemonListTypesCreateDto {
-        $pokemonTypes = new PokemonListTypesCreateDto();
-        foreach ($pokemonDetail->types as $type) {
-            $pokemonTypes->add(
+        return array_reduce(
+            $pokemonDetail->types,
+            fn(PokemonListTypesCreateDto $carry, string $type) => $carry->add(
                 new PokemonTypeCreateDto($type)
-            );
-        }
-        return $pokemonTypes;
+            ),
+            new PokemonListTypesCreateDto()
+        );
     }
 }

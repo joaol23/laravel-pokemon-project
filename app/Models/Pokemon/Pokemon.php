@@ -2,8 +2,10 @@
 
 namespace App\Models\Pokemon;
 
+use Database\Factories\PokemonFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Pokemon extends Model
@@ -29,5 +31,12 @@ class Pokemon extends Model
             'pokemons_types_pokemon',
             'pokemon_id'
         );
+    }
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): Factory
+    {
+        return PokemonFactory::new();
     }
 }

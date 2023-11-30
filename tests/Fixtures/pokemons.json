@@ -4,53 +4,52 @@
     "previous": null,
     "results": [
         {
-            "name": "bulbasaur",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/1/"
         },
         {
-            "name": "ivysaur",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/2/"
         },
         {
-            "name": "venusaur",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/3/"
         },
         {
-            "name": "charmander",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/4/"
         },
         {
-            "name": "charmeleon",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/5/"
         },
         {
-            "name": "charizard",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/6/"
         },
         {
-            "name": "squirtle",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/7/"
         },
         {
-            "name": "wartortle",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/8/"
         },
         {
-            "name": "blastoise",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/9/"
         },
         {
-            "name": "caterpie",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/10/"
         },
         {
-            "name": "metapod",
+            "name": "ditto",
             "url": "https://pokeapi.co/api/v2/pokemon/11/"
         },
         {
-            "name": "butterfree",
-            "url": "https://pokeapi.co/api/v2/pokemon/12/",
-            "name": "weedle"
+            "name": "ditto",
+            "url": "https://pokeapi.co/api/v2/pokemon/12/"
         }
     ]
 }

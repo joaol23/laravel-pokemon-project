@@ -34,6 +34,7 @@ class PokemonService implements PokemonServiceContract
             $pokemonTypes = $this->pokemonTypesService->create(
                 $pokemonListTypesCreateDto
             );
+
             $this->pokemonRepository->setTypes($pokemon, $pokemonTypes);
             return $pokemon;
         } catch (\Throwable $exception) {
@@ -62,20 +63,6 @@ class PokemonService implements PokemonServiceContract
                 "Erro listagem de pokemon",
                 Response::HTTP_BAD_REQUEST
             );
-        }
-    }
-
-    public function getById(int $id): Pokemon
-    {
-        try {
-            /* @var Pokemon */
-            return $this->pokemonRepository::find($id);
-        } catch (\Throwable $e) {
-            CustomLogger::error(
-                "Erro ao buscar pokemon => " . $e->getMessage(),
-                LogsFolder::POKEMON
-            );
-            throw new ObjectNotFound('Pokemon');
         }
     }
 

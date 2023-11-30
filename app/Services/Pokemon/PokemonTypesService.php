@@ -8,6 +8,7 @@ use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Enum\LogsFolder;
 use App\Models\Pokemon\PokemonTypes;
 use App\Utils\Logging\CustomLogger;
+use DomainException;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -43,7 +44,7 @@ class PokemonTypesService implements PokemonTypesServiceContract
                 . "\n Tipos => " . print_r($pokemonListTypesCreateDto->types, true),
                 LogsFolder::POKEMON_TYPES
             );
-            throw new \DomainException(
+            throw new DomainException(
                 "Erro criação de tipos para pokemons",
                 Response::HTTP_BAD_REQUEST
             );

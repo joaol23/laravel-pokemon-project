@@ -21,7 +21,7 @@ uses(
 
 uses(
     \Tests\FakeHttp::class,
-)->beforeEach(fn() => $this->fake())->in('Unit/External');
+)->beforeEach(fn() => $this->fake())->in('Unit/External', 'Feature/Jobs/External');
 
 /*
 |--------------------------------------------------------------------------

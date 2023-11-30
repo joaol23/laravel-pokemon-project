@@ -7,5 +7,6 @@
 | Envio de email ao criar usuário                                                                  | Fazer notificação de email ao criar um usuário                                                | Feito        | 
 | Processo em fila para importar algumas informações de pokemons utilizando api externa para banco | Pegar da api de pokemons algumas informações basicas e salvar no banco em um processo de fila | Feito        |
 | Criar testes para fluxo de pokemons                                                              | Criar alguns testes para o fluxo ja feito de pokemons                                         | Em andamento |
+| Usar as imagens de pokemons que vem direto da requisiçao (sprites)                               |                                                                                               |              |
 | Fazer com que repositorios recebam dto ao invés de array puro                                    |                                                                                               | Planejamento |
 | Fluxo de selecionar Pokemons para os usuários                                                    |                                                                                               | Planejamento |
