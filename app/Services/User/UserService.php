@@ -12,21 +12,18 @@ use App\Models\User;
 use App\Notifications\UserCreatedNotification;
 use App\Utils\Logging\CustomLogger;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserService implements UserServiceContract
 {
     public function __construct(
         private readonly UserRepositoryContract $userRepository
-    )
-    {
+    ) {
     }
 
     public function create(
         UserCreateDto $userCreateDto
-    ): User
-    {
+    ): User {
         try {
             /** @var User $user */
             $user = $this->userRepository::create($userCreateDto->toArray());
@@ -56,6 +53,25 @@ class UserService implements UserServiceContract
         }
     }
 
+    public function update(
+        UserUpdateDto $userUpdateDto,
+        int           $id
+    ): User {
+        try {
+            $this->userRepository::update($userUpdateDto->toArray(), $id);
+            return $this->getById($id);
+        } catch (ObjectNotFound $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            CustomLogger::error(
+                "Error => " . $e->getMessage() . "\n"
+                . "Informações usuario: " . print_r($userUpdateDto->toArray(), true),
+                LogsFolder::USERS
+            );
+            throw new \DomainException("Erro ao atualizar dados do usuário!", Response::HTTP_BAD_REQUEST);
+        }
+    }
+
     public function getById(int $id): User
     {
         try {
@@ -69,26 +85,6 @@ class UserService implements UserServiceContract
                 LogsFolder::USERS
             );
             throw new ObjectNotFound('Usuário');
-        }
-    }
-
-    public function update(
-        UserUpdateDto $userUpdateDto,
-        int           $id
-    ): User
-    {
-        try {
-            $this->userRepository::update($userUpdateDto->toArray(), $id);
-            return $this->getById($id);
-        } catch (ObjectNotFound $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            CustomLogger::error(
-                "Error => " . $e->getMessage() . "\n"
-                . "Informações usuario: " . print_r($userUpdateDto->toArray(), true),
-                LogsFolder::USERS
-            );
-            throw new \DomainException("Erro ao atualizar dados do usuário!", Response::HTTP_BAD_REQUEST);
         }
     }
 
