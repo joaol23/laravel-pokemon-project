@@ -27,11 +27,12 @@ class PokemonsMigrationCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(): int
     {
         $quantityJobs = Division::divisionRoundUp(PokeApi::pokemons()->limit(1)->get()->count, 10);
         for ($i = 1; $i <= $quantityJobs; $i++) {
             MigratePokemonsJob::dispatch($i, 10);
         }
+        return 1;
     }
 }
