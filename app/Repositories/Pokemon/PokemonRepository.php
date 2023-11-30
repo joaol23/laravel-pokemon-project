@@ -17,4 +17,13 @@ class PokemonRepository extends CrudRepository implements PokemonRepositoryContr
         $pokemon->types()
             ->attach(array_column($types, "id"));
     }
+
+    public function existsByName(
+        string $name
+    ): bool {
+        return self::loadModel()
+            ->query()
+            ->where('name', $name)
+            ->exists();
+    }
 }

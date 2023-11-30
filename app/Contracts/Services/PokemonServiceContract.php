@@ -17,4 +17,6 @@ interface PokemonServiceContract
     public function listAll(): Collection;
 
     public function getById(int $id): Pokemon;
+
+    public function existsByName(string $name): bool;
 }

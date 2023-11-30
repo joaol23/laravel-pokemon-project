@@ -18,4 +18,8 @@ interface PokemonRepositoryContract extends RepositoryContract
         Pokemon $pokemon,
         array $types
     ): void;
+
+    public function existsByName(
+        string $name
+    ): bool;
 }

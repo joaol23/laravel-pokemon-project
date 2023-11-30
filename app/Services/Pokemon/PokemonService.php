@@ -78,4 +78,18 @@ class PokemonService implements PokemonServiceContract
             throw new ObjectNotFound('Pokemon');
         }
     }
+
+    public function existsByName(string $name): bool
+    {
+        try {
+            return $this->pokemonRepository
+                ->existsByName($name);
+        } catch (\Throwable $e) {
+            CustomLogger::error(
+                "Erro ao buscar pokemon => " . $e->getMessage(),
+                LogsFolder::POKEMON
+            );
+            throw new ObjectNotFound('Pokemon');
+        }
+    }
 }

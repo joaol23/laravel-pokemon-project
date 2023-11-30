@@ -18,7 +18,7 @@ abstract class CrudRepository extends AbstractRepository implements RepositoryCo
     {
         return static::loadModel()
             ->query()
-            ->create($data);
+            ->updateOrCreate($data);
     }
 
     public static function find(int $id): Model

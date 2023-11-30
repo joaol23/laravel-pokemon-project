@@ -27,6 +27,9 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
             ->page($page)
             ->get();
         foreach ($pokemons->results() as $pokemon) {
+            if ($this->pokemonService->existsByName($pokemon->name)) {
+                continue;
+            }
             /* @var PokemonEntity $pokemonDetail */
             $pokemonDetail = $pokemon->details();
             $pokemonCreateDto = new PokemonCreateDto(
