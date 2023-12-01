@@ -33,7 +33,7 @@ class PokemonTypesService implements PokemonTypesServiceContract
                     continue;
                 }
                 $types[] = $this->pokemonTypesRepository::create(
-                    $type->toArray()
+                    $type
                 );
             }
             return $types;

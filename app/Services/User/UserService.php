@@ -26,7 +26,7 @@ class UserService implements UserServiceContract
     ): User {
         try {
             /** @var User $user */
-            $user = $this->userRepository::create($userCreateDto->toArray());
+            $user = $this->userRepository::create($userCreateDto);
 
             $user->notify(new UserCreatedNotification());
             return $user;
@@ -58,7 +58,7 @@ class UserService implements UserServiceContract
         int           $id
     ): User {
         try {
-            $this->userRepository::update($userUpdateDto->toArray(), $id);
+            $this->userRepository::update($userUpdateDto, $id);
             return $this->getById($id);
         } catch (ObjectNotFound $e) {
             throw $e;

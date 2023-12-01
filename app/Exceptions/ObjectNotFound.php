@@ -3,18 +3,18 @@
 namespace App\Exceptions;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class ObjectNotFound extends HttpResponseException
 {
-    public function __construct(string $object)
+    public function __construct(?string $object = null)
     {
-        $this->message = "{$object} não encontrado!";
+        $this->message = ($object ?? "Objeto") . "não encontrado!";
         parent::__construct(
-            response()->json([
-                "message" => $this->message,
-                "type" => false
-            ], Response::HTTP_NOT_FOUND)
+            response()->json(   [
+                                 "message" => $this->message,
+                                 "type"    => false
+                             ], Response::HTTP_NOT_FOUND)
         );
     }
 }

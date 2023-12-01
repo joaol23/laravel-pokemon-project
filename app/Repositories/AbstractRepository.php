@@ -15,7 +15,7 @@ abstract class AbstractRepository
         if (!(static::loadModel()
             ->query()
             ->where('id', $id)->exists())) {
-            throw new ObjectNotFound('Usuário');
+            throw new ObjectNotFound();
         }
     }
 

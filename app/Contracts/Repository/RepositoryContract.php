@@ -2,18 +2,19 @@
 
 namespace App\Contracts\Repository;
 
+use App\Dto\BaseDtoInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 interface RepositoryContract
 {
     public static function create(
-        array $data
+        BaseDtoInterface $dto
     ): Model;
     public static function all(): Collection;
     public static function find(int $id): Model;
     public static function update(
-        array $data,
+        BaseDtoInterface $dto,
         int $id
     ): int;
 
