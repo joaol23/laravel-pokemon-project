@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repository\RepositoryContract;
-use App\Exceptions\ObjectNotFound;
+use App\Dto\BaseDtoInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,11 +14,11 @@ abstract class CrudRepository extends AbstractRepository implements RepositoryCo
         return static::loadModel()->all();
     }
 
-    public static function create(array $data): Model
+    public static function create(BaseDtoInterface $dto): Model
     {
         return static::loadModel()
             ->query()
-            ->updateOrCreate($data);
+            ->create($dto->toArray());
     }
 
     public static function find(int $id): Model
@@ -30,13 +30,13 @@ abstract class CrudRepository extends AbstractRepository implements RepositoryCo
     }
 
     public static function update(
-        array $data,
+        BaseDtoInterface $dto,
         int   $id
     ): int {
         self::exists($id);
         return static::loadModel()->query()
             ->where(static::loadModel()->getKeyName(), $id)
-            ->update($data);
+            ->update($dto->toArray());
     }
 
     public static function delete(int $id): bool

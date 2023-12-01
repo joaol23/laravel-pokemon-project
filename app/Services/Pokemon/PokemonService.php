@@ -29,7 +29,7 @@ class PokemonService implements PokemonServiceContract
         try {
             /* @var Pokemon $pokemon */
             $pokemon = $this->pokemonRepository
-                ::create($pokemonCreateDto->toArray());
+                ::create($pokemonCreateDto);
 
             $pokemonTypes = $this->pokemonTypesService->create(
                 $pokemonListTypesCreateDto
