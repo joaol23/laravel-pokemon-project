@@ -6,20 +6,21 @@ class DebugBacktracePrety
 {
     private static array $filesExclude = ["DebugBacktracePrety", "CustomLogger"];
 
-    public static function backtrace()
+    public static function backtrace(): string
     {
         $debugBacktracet = self::getDebugBacktrace();
         return self::treatBackTrace($debugBacktracet);
     }
 
-    private static function getDebugBacktrace()
+    private static function getDebugBacktrace(): array
     {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 10);
 
         $lastPaths = [];
 
         foreach ($backtrace as $trace) {
-            $fileTrace = isset($trace['file']) ? str_replace(".php", "", basename($trace['file'])) : null;
+            $fileTrace = isset($trace['file']) ? str_replace("OnlyChangeCurrentUserTest.php", "",
+                                                             basename($trace['file'])) : null;
 
             if (
                 !in_array($fileTrace, self::$filesExclude)
@@ -28,7 +29,7 @@ class DebugBacktracePrety
             ) {
                 $infoChamada = [
                     'arquivo' => $trace['file'],
-                    'linha' => $trace['line'],
+                    'linha'   => $trace['line'],
                 ];
 
                 if (isset($trace['class'])) {
@@ -61,7 +62,7 @@ class DebugBacktracePrety
                 $text .= "  Função: {$trace['funcao']}\n";
             }
             if (isset($trace['parametros'])) {
-                $text .= "  Parâmetros: " . json_encode($trace['parametros']) . "\n";
+                $text .= "  Parâmetros: " . json_encode($trace['parametros'], JSON_THROW_ON_ERROR) . "\n";
             }
             $text .= "\n";
         }

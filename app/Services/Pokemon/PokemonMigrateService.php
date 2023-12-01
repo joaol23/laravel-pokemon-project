@@ -2,9 +2,9 @@
 
 namespace App\Services\Pokemon;
 
-use App\Clients\Pokemon\PokeApi\Facade\PokeApi;
 use App\Clients\Pokemon\PokeApi\V2\Entities\Lists\PokemonListEntity;
 use App\Clients\Pokemon\PokeApi\V2\Entities\Unit\PokemonEntity;
+use App\Contracts\Services\PokemonExternalServiceContract;
 use App\Contracts\Services\PokemonMigrateServiceContract;
 use App\Contracts\Services\PokemonServiceContract;
 use App\Dto\Pokemon\PokemonCreateDto;
@@ -14,8 +14,8 @@ use App\Dto\Pokemon\PokemonTypeCreateDto;
 class PokemonMigrateService implements PokemonMigrateServiceContract
 {
     public function __construct(
-        private readonly PokeApi                $pokeApi,
-        private readonly PokemonServiceContract $pokemonService
+        private readonly PokemonExternalServiceContract $pokemonExternalService,
+        private readonly PokemonServiceContract         $pokemonService
     ) {
     }
 
@@ -23,10 +23,8 @@ class PokemonMigrateService implements PokemonMigrateServiceContract
         int $page,
         int $limit
     ): void {
-        $pokemons = $this->pokeApi::pokemons()
-            ->limit($limit)
-            ->page($page)
-            ->get();
+        $pokemons = $this->pokemonExternalService->getPokemons($page, $limit);
+
         /* @var PokemonListEntity $pokemon */
         foreach ($pokemons->results() as $pokemon) {
             if ($this->pokemonService->existsByName($pokemon->name)) {
