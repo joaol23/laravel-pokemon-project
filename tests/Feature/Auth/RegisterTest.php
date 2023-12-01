@@ -9,8 +9,9 @@ describe("Teste do registro na api", function () {
     test('Registrar novo usuário, sucesso', function () {
         $newUser = $this->getFakeUser();
 
-        $return = (object) post(route("register"), $newUser)
-            ->assertStatus(201)->json("data");
+        $return = (object)post(route("register"), $newUser)
+            ->assertStatus(201)
+            ->json("data");
 
         expect($return)->toHaveProperty("token");
     });
@@ -19,8 +20,9 @@ describe("Teste do registro na api", function () {
         $newUser = $this->getFakeUser(email: "john" . $parameterRemove . "@smith.com");
         unset($newUser[$parameterRemove]);
 
-        $return = (object) post(route("register"), $newUser)
-            ->assertStatus(422)->json();
+        $return = (object)post(route("register"), $newUser)
+            ->assertStatus(422)
+            ->json();
         expect($return)->toHaveProperty("message", "Dados inválidos");
         expect($return)->toHaveProperty("errors");
         expect($return->errors)->toBeArray();
@@ -30,11 +32,12 @@ describe("Teste do registro na api", function () {
     })->with(["name", "email", "password"]);
 
     test('Registrar dois emails iguais, erro', function () {
-        $return = (object) post(route("register"), $this->getFakeUser())
+        $return = (object)post(route("register"), $this->getFakeUser())
             ->assertStatus(201);
 
-        $return = (object) post(route("register"), $this->getFakeUser())
-            ->assertStatus(422)->json();
+        $return = (object)post(route("register"), $this->getFakeUser())
+            ->assertStatus(422)
+            ->json();
 
         expect($return)->toHaveProperty("message", "Dados inválidos");
         expect($return)->toHaveProperty("errors");
@@ -45,8 +48,9 @@ describe("Teste do registro na api", function () {
     });
 
     test('Registro com confirmação de senha errada, erro', function () {
-        $return = (object) post(route("register"), $this->getFakeUser(password: "123456789"))
-            ->assertStatus(422)->json();
+        $return = (object)post(route("register"), $this->getFakeUser(password: "123456789"))
+            ->assertStatus(422)
+            ->json();
 
         expect($return)->toHaveProperty("message", "Dados inválidos");
         expect($return)->toHaveProperty("errors");

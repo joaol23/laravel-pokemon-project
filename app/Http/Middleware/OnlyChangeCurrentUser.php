@@ -22,9 +22,10 @@ class OnlyChangeCurrentUser
     ): Response {
         /** @var User */
         $userLoggedIn = auth("sanctum")->user();
-        $UserRouteId = $request->route()->user;
+        $userRouteId = $request->route()->user;
+
         if (
-            !($userLoggedIn->id == $UserRouteId) && !$userLoggedIn->isAdmin()
+            !($userLoggedIn->id === (int) $userRouteId) && !$userLoggedIn->isAdmin()
         ) {
             throw new UnauthorizedException(
                 "Não autorizado!",
