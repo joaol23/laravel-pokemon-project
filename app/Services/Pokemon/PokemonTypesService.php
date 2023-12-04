@@ -9,6 +9,7 @@ use App\Enum\LogsFolder;
 use App\Models\Pokemon\PokemonTypes;
 use App\Utils\Logging\CustomLogger;
 use DomainException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -62,7 +63,7 @@ class PokemonTypesService implements PokemonTypesServiceContract
         }
     }
 
-    public function listAll(): Collection
+    public function listAll(): LengthAwarePaginator
     {
         try {
             return $this->pokemonTypesRepository::all();

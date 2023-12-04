@@ -10,6 +10,7 @@ use App\Http\Middleware\OnlyChangeCurrentUser;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Utils\Params\ValidId;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
@@ -17,16 +18,17 @@ class UserController extends Controller
     public function __construct(
         private readonly UserServiceContract $userService
     ) {
-        $this->middleware(OnlyAdmin::class)->only(['index', 'store']);
+        $this->middleware(OnlyAdmin::class)
+            ->only(['index', 'store']);
         $this->middleware(OnlyChangeCurrentUser::class);
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json([
-            "data" => $this->userService
+        return response()->json(
+            $this->userService
                 ->listAll()
-        ]);
+        );
     }
 
     public function store(UserCreateRequest $request)
@@ -56,7 +58,7 @@ class UserController extends Controller
         UserUpdateRequest $request,
         int $id
     ) {
-        $validatedData = (object) $request->validated();
+        $validatedData = (object)$request->validated();
         $userUpdateDto = new UserUpdateDto(
             $validatedData->name,
             $validatedData->email

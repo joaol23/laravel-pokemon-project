@@ -15,14 +15,16 @@ describe("Testagem dos fluxos de listar usuários, somente admin", function () {
     });
 
     test('Listagem de usuários como admin com dois usuários, sucesso', function () {
-        $return = actingAs($this->userAdmin)
+        $return = (object) actingAs($this->userAdmin)
             ->get(route('user.index'))
-            ->assertOk()->json("data");
+            ->assertOk()->json();
 
-        expect($return)->toBeArray();
-        expect($return)->toHaveCount(2);
+        expect($return->data)->toBeArray();
+        expect($return->data)->toHaveCount(2);
 
-        expect((object) $return[0])->toHaveProperties(['id', 'name', 'email']);
+
+        expect($return->data[0])->toHaveKeys(['id', 'name', 'email']);
+        expect($return->total)->toBe(2);
     });
 
     test('Listagem de usuários como user normal, erro', function () {

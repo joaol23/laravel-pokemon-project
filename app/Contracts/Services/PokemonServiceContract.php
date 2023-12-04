@@ -5,6 +5,7 @@ namespace App\Contracts\Services;
 use App\Dto\Pokemon\PokemonCreateDto;
 use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Models\Pokemon\Pokemon;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface PokemonServiceContract
@@ -14,7 +15,7 @@ interface PokemonServiceContract
         PokemonListTypesCreateDto $pokemonListTypesCreateDto
     ): Pokemon;
 
-    public function listAll(): Collection;
+    public function listAll(): LengthAwarePaginator;
 
     public function existsByName(string $name): bool;
 }

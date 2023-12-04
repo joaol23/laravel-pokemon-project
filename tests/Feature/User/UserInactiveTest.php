@@ -55,7 +55,7 @@ describe("Testagem da rota de excluir usuário", function () {
             ->delete(route('user.destroy', 223))
             ->assertStatus(404)->json();
 
-        expect($return)->toHaveProperty('message', 'Usuário não encontrado!');
+        expect($return)->toHaveProperty('message', 'Objeto não encontrado!');
         expect($return)->toHaveProperty('type', false);
     });
 
