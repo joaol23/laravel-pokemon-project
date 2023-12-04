@@ -34,3 +34,6 @@ Route::middleware('auth:sanctum')
 
 Route::get('/pokemons', [PokemonController::class, 'index'])
     ->name('pokemon.list');
+
+Route::get('/pokemon/{name}', [PokemonController::class, 'details'])
+    ->name('pokemon.details');
