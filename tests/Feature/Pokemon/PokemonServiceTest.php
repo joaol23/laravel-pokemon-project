@@ -6,6 +6,7 @@ use App\Repositories\Pokemon\PokemonRepository;
 use App\Repositories\Pokemon\PokemonTypesRepository;
 use App\Services\Pokemon\PokemonService;
 use App\Services\Pokemon\PokemonTypesService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Tests\Objects\PokemonFakeTrait;
 use Tests\Objects\PokemonTypesFakeTrait;
@@ -53,7 +54,7 @@ describe("Testando fluxo do serviço de pokemon", function () {
         $pokemons = $this->pokemonService->listAll();
 
         expect($pokemons)->toHaveCount(2)
-            ->toBeInstanceOf(Collection::class);
+            ->toBeInstanceOf(LengthAwarePaginator::class);
     });
 
     test("Testando chegam de existir pokemon pelo nome", function () {

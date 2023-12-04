@@ -11,6 +11,7 @@ use App\Exceptions\ObjectNotFound;
 use App\Models\User;
 use App\Notifications\UserCreatedNotification;
 use App\Utils\Logging\CustomLogger;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,7 +41,7 @@ class UserService implements UserServiceContract
         }
     }
 
-    public function listAll(): Collection
+    public function listAll(): LengthAwarePaginator
     {
         try {
             return $this->userRepository::all();

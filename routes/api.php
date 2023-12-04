@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PokemonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +20,17 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/login', [AuthController::class, 'auth'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'auth'])
+    ->name('login');
+Route::post('/register', [AuthController::class, 'register'])
+    ->name('register');
 
-Route::middleware('auth:sanctum')->group(function() {
-    Route::apiResource('/user', UserController::class);
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-});
+Route::middleware('auth:sanctum')
+    ->group(function () {
+        Route::apiResource('/user', UserController::class);
+        Route::post('/logout', [AuthController::class, 'logout'])
+            ->name('logout');
+    });
+
+Route::get('/pokemons', [PokemonController::class, 'index'])
+    ->name('pokemon.list');

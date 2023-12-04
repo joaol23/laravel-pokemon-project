@@ -64,7 +64,7 @@ describe("Testagem dos fluxos de ver detalhes do usuário", function () {
             ->get(route('user.show', 13143))
             ->assertStatus(404)->json();
 
-        expect($return)->toHaveProperty('message', 'Usuário não encontrado!');
+        expect($return)->toHaveProperty('message', 'Objeto não encontrado!');
         expect($return)->toHaveProperty('type', false);
     });
 });
