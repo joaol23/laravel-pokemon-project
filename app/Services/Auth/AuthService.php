@@ -6,6 +6,7 @@ use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Services\AuthServiceContract;
 use App\Dto\Auth\LoginDto;
 use App\Enum\LogsFolder;
+use App\Exceptions\Auth\AuthenticationCredentialsInvalid;
 use App\Exceptions\InternalError;
 use App\Models\User;
 use App\Utils\Logging\CustomLogger;
@@ -31,8 +32,8 @@ class AuthService implements AuthServiceContract
                 ? throw new AuthenticationException()
                 : $user;
         } catch (ModelNotFoundException|AuthenticationException $e) {
-            throw new AuthenticationException();
-        } catch (Exception $e) {
+            throw new AuthenticationCredentialsInvalid();
+        } catch (\Throwable $e) {
             CustomLogger::error(
                 "Error => " . $e->getMessage() . "\n" . "Informações usuario: " . print_r($loginDto->toArray(), true),
                 LogsFolder::AUTH

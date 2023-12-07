@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     protected static ?string $password;
-    protected static ?string $email;
 
     /**
      * Define the model's default state.
@@ -24,7 +23,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => static::$email ??= fake()->unique()->safeEmail(),
+            'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
             'role' => RolesUser::USER->value
         ];
