@@ -11,11 +11,13 @@ trait FakeHttp
         $pokemonsData = file_get_contents(base_path('tests/Fixtures/pokemons.json'));
         $pokemonData = file_get_contents(base_path('tests/Fixtures/pokemon.json'));
         Http::fake([
-
-            "https://pokeapi.co/api/v2/pokemon/*" => Http::response(
+            "https://pokeapi.co/api/v2/pokemon/teste" => Http::response(
+                null
+            ),
+            "https://pokeapi.co/api/v2/pokemon/*"     => Http::response(
                 $pokemonData
             ),
-            "https://pokeapi.co/api/v2/pokemon*" => Http::response(
+            "https://pokeapi.co/api/v2/pokemon*"      => Http::response(
                 $pokemonsData
             ),
         ]);

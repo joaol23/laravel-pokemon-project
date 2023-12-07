@@ -24,6 +24,14 @@ class Pokemon extends Model
         'image'
     ];
 
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['types'];
+
     public function types(): BelongsToMany
     {
         return $this->belongsToMany(

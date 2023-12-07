@@ -11,7 +11,7 @@ use App\Enum\LogsFolder;
 use App\Exceptions\ObjectNotFound;
 use App\Models\Pokemon\Pokemon;
 use App\Utils\Logging\CustomLogger;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\Response;
 
 class PokemonService implements PokemonServiceContract
@@ -50,7 +50,7 @@ class PokemonService implements PokemonServiceContract
         }
     }
 
-    public function listAll(): Collection
+    public function listAll(): LengthAwarePaginator
     {
         try {
             return $this->pokemonRepository::all();

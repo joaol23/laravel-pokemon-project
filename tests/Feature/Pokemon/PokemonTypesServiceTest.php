@@ -4,7 +4,7 @@ use App\Dto\Pokemon\PokemonListTypesCreateDto;
 use App\Models\Pokemon\PokemonTypes;
 use App\Repositories\Pokemon\PokemonTypesRepository;
 use App\Services\Pokemon\PokemonTypesService;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 uses(\Tests\Objects\PokemonTypesFakeTrait::class);
 
@@ -62,6 +62,6 @@ describe("Testando service de tipos de pokemons", function () {
         $pokemons = $this->pokemonTypesService->listAll();
 
         expect($pokemons)->toHaveCount(2)
-            ->toBeInstanceOf(Collection::class);
+            ->toBeInstanceOf(LengthAwarePaginator::class);
     });
 });

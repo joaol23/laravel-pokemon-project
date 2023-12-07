@@ -10,6 +10,8 @@ class PokemonRepository extends CrudRepository implements PokemonRepositoryContr
 {
     protected static string $model = Pokemon::class;
 
+    protected static int $paginate = 30;
+
     public function setTypes(
         Pokemon $pokemon,
         array   $types
