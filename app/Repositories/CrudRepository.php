@@ -6,6 +6,8 @@ use App\Contracts\Repository\RepositoryContract;
 use App\Dto\BaseDtoInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
 
 abstract class CrudRepository extends AbstractRepository implements RepositoryContract
 {
@@ -14,10 +16,17 @@ abstract class CrudRepository extends AbstractRepository implements RepositoryCo
      * @var int
      */
     protected static int $paginate = 20;
+
     public static function all(): LengthAwarePaginator
     {
-        return static::loadModel()::query()
-            ->paginate(static::$paginate);
+        $currentPage = Paginator::resolveCurrentPage('page');
+        $model = self::$model;
+        return Cache::remember(
+            "{$model}_list_{$currentPage}",
+            now()->addMinutes(10),
+            fn() => static::loadModel()::query()
+                ->paginate(static::$paginate)
+        );
     }
 
     public static function create(BaseDtoInterface $dto): Model
