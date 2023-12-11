@@ -9,4 +9,5 @@
 | Criar testes para fluxo de pokemons                                                                                   | Criar alguns testes para o fluxo ja feito de pokemons                                         | Feito        |
 | Usar as imagens de pokemons que vem direto da requisiçao (sprites), e fazer PokeApi ser utilizada por meio de serviço |                                                                                               | Feito        |
 | Fazer com que repositorios recebam dto ao invés de array puro                                                         |                                                                                               | Feito        |
+| Mudar rotas de autenticação para terem um "auth" antes. Adicionar rotas de me para facilitar no front                 |                                                                                               | Planejamento |
 | Fluxo de selecionar Pokemons para os usuários                                                                         |                                                                                               | Planejamento |

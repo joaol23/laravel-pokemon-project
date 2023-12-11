@@ -17,15 +17,14 @@ class AuthController extends Controller
     public function __construct(
         private readonly UserServiceContract $userService,
         private readonly AuthServiceContract $authService,
-    )
-    {
-        $this->middleware("auth:sanctum")->only("logout");
+    ) {
+        $this->middleware("auth:sanctum")
+            ->only("logout");
     }
 
     public function auth(
         LoginRequest $loginRequest
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $loginDto = new LoginDto(
             $loginRequest->get('email'),
             $loginRequest->get('password')
@@ -42,8 +41,7 @@ class AuthController extends Controller
 
     public function register(
         UserCreateRequest $userCreateRequest
-    ): JsonResponse
-    {
+    ): JsonResponse {
         $userDto = new UserCreateDto(
             $userCreateRequest->get('email'),
             $userCreateRequest->get('email'),
@@ -63,12 +61,21 @@ class AuthController extends Controller
 
     public function logout(
         Request $request
-    ): JsonResponse
-    {
+    ): JsonResponse {
         return response()->json([
             "data" => [
                 'type' =>
-                    $this->authService->deleteAllTokens($request->user())
+                    $this->authService
+                        ->deleteAllTokens($request->user())
+            ]
+        ]);
+    }
+
+    public function me(): JsonResponse
+    {
+        return response()->json([
+            "data" => [
+                'user' => auth()->user()
             ]
         ]);
     }

@@ -2,14 +2,11 @@
 
 use App\Contracts\Repository\UserRepositoryContract;
 use App\Dto\Auth\LoginDto;
+use App\Exceptions\Auth\AuthenticationCredentialsInvalid;
 use App\Exceptions\InternalError;
 use App\Models\User;
 use App\Services\Auth\AuthService;
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Hash;
-
-use function PHPUnit\Framework\identicalTo;
 
 describe("Testando o método checkCredentials", function () {
     beforeEach(function () {
@@ -45,7 +42,7 @@ describe("Testando o método checkCredentials", function () {
             "12345678"
         );
         $this->authService->checkCredentials($loginDto);
-    })->throws(AuthenticationException::class);
+    })->throws(AuthenticationCredentialsInvalid::class);
 
     test('Usuário com senha errada', function () {
         $this->userRepository
@@ -59,7 +56,7 @@ describe("Testando o método checkCredentials", function () {
             "123456789"
         );
         $this->authService->checkCredentials($loginDto);
-    })->throws(AuthenticationException::class);
+    })->throws(AuthenticationCredentialsInvalid::class);
 
     test('Exception qualquer', function () {
         $this->userRepository

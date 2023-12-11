@@ -24,7 +24,6 @@ class Pokemon extends Model
         'image'
     ];
 
-
     /**
      * The relationships that should always be loaded.
      *

@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\Auth\AuthenticationCredentialsInvalid;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -37,30 +38,30 @@ class Handler extends ExceptionHandler
             ],  $e->getCode() > 100 ? $e->getCode() : 500);
         });
     }
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e): \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response|\Illuminate\Http\RedirectResponse
     {
-        if ($exception instanceof ValidationException) {
+        if ($e instanceof ValidationException) {
             return response()->json([
                 'message' => 'Dados inválidos',
-                'errors' => $exception->errors(),
+                'errors' => $e->errors(),
             ], 422);
         }
 
-        if ($exception instanceof ModelNotFoundException) {
+        if ($e instanceof ModelNotFoundException) {
             return response()->json([
                 'message' => 'Dado não encontrado!',
                 'type' => false
             ], 404);
         }
-        if ($exception instanceof AuthenticationException) {
+        if ($e instanceof AuthenticationException) {
             return response()->json([
                 'message' => "Não autorizado!",
                 'type' => false,
             ],  401);
         }
         return response()->json([
-            'message' => $exception->getMessage(),
+            'message' => $e->getMessage(),
             'type' => false,
-        ],  $exception->getCode() > 100 ? $exception->getCode() : 500);
+        ],  ($e->getCode() > 100 ? $e->getCode() : 500));
     }
 }

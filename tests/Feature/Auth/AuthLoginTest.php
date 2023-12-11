@@ -32,7 +32,7 @@ describe("Testagem do login na api", function () {
         $userData[$type] = $parameter;
         $return = (object) post(route("login"), $userData)->assertStatus(401)->json();
 
-        expect($return)->toHaveProperty("message", "Não autorizado!")
+        expect($return)->toHaveProperty("message", "Credenciais inválidas!")
             ->and($return)->toHaveProperty("type", false);
     })->with([
         "email"=> ["teste@teste.com", "email"],

@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class InternalError extends HttpResponseException
 {
@@ -15,7 +16,7 @@ class InternalError extends HttpResponseException
             response()->json([
                 "message" => $this->message,
                 "type" => false
-            ], Response::HTTP_INTERNAL_SERVER_ERROR)
+            ], ResponseAlias::HTTP_INTERNAL_SERVER_ERROR)
         );
     }
 }

@@ -23,7 +23,7 @@ class PokemonTypes extends Model
         "fighting" => "brown",
         "poison" => "purple",
         "ground" => "orange",
-        "flying" => "lightgrey",
+        "flying" => "gray",
         "psychic" => "pink",
         "bug" => "lime",
         "rock" => "darkgrey",
