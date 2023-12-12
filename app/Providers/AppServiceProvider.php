@@ -7,12 +7,14 @@ use App\Contracts\Services\PokemonExternalServiceContract;
 use App\Contracts\Services\PokemonMigrateServiceContract;
 use App\Contracts\Services\PokemonServiceContract;
 use App\Contracts\Services\PokemonTypesServiceContract;
+use App\Contracts\Services\UserPokemonServiceContract;
 use App\Contracts\Services\UserServiceContract;
 use App\Services\Auth\AuthService;
 use App\Services\Pokemon\PokemonExternalService;
 use App\Services\Pokemon\PokemonMigrateService;
 use App\Services\Pokemon\PokemonService;
 use App\Services\Pokemon\PokemonTypesService;
+use App\Services\User\UserPokemonService;
 use App\Services\User\UserService;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerAuthServices();
         $this->registerPokemonServices();
+        $this->app->bind(UserPokemonServiceContract::class, UserPokemonService::class);
     }
 
     private function registerPokemonServices(): void

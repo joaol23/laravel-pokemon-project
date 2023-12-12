@@ -20,7 +20,6 @@ class UserController extends Controller
     ) {
         $this->middleware(OnlyAdmin::class)
             ->only(['index', 'store']);
-        $this->middleware(OnlyChangeCurrentUser::class);
     }
 
     public function index(): JsonResponse
