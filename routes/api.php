@@ -35,11 +35,14 @@ Route::middleware('auth:sanctum')
                 Route::get('/me', [AuthController::class, 'me'])
                     ->name('about.me');
             });
-        Route::middleware(OnlyChangeCurrentUser::class)->group(function () {
-            Route::apiResource('/user', UserController::class);
-            Route::post('/user/{user}/pokemon/{pokemon}', [UserPokemonController::class, 'addPokemon'])
-                ->name('user.add.pokemon');
-        });
+        Route::middleware(OnlyChangeCurrentUser::class)
+            ->group(function () {
+                Route::apiResource('/user', UserController::class);
+                Route::post('/user/{user}/pokemon/{pokemon}', [UserPokemonController::class, 'addPokemon'])
+                    ->name('user.add.pokemon');
+                Route::get('/user/{user}/pokemons', [UserPokemonController::class, 'listPokemons'])
+                    ->name('user.list.pokemon');
+            });
     });
 
 Route::get('/pokemons', [PokemonController::class, 'index'])

@@ -10,4 +10,4 @@
 | Usar as imagens de pokemons que vem direto da requisiçao (sprites), e fazer PokeApi ser utilizada por meio de serviço |                                                                                               | Feito        |
 | Fazer com que repositorios recebam dto ao invés de array puro                                                         |                                                                                               | Feito        |
 | Mudar rotas de autenticação para terem um "auth" antes. Adicionar rotas de me para facilitar no front                 |                                                                                               | Feito        |
-| Fluxo de selecionar Pokemons para os usuários                                                                         |                                                                                               | Em andamento |
+| Fluxo de selecionar Pokemons para os usuários                                                                         | Tendo ordem dos pokemons. E poder listar pokemons de usuario                                  | Em andamento |

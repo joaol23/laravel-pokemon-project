@@ -6,6 +6,7 @@ use App\Exceptions\Auth\AuthenticationCredentialsInvalid;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 use Illuminate\Validation\ValidationException;
@@ -66,6 +67,10 @@ class Handler extends ExceptionHandler
                 'message' => $e->getMessage(),
                 'type' => false,
             ],  $e->getStatusCode() > 100 ? $e->getStatusCode() : 500);
+        }
+
+        if ($e instanceof HttpResponseException) {
+            return $e->getResponse();
         }
 
         return response()->json([
