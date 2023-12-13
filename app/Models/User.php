@@ -58,6 +58,11 @@ class User extends Authenticatable
 
     public function pokemons(): BelongsToMany
     {
-        return $this->belongsToMany(Pokemon::class, 'users_pokemons', 'user_id', 'pokemon_id');
+        return $this->belongsToMany(
+            Pokemon::class,
+            'users_pokemons',
+            'user_id',
+            'pokemon_id'
+        )->withPivot('order')->orderByPivot('order');
     }
 }

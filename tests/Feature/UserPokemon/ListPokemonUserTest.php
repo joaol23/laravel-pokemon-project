@@ -28,7 +28,7 @@ describe('Testando o fluxo de listagem de pokemons de usuarios', function () {
 
     test('Usuario com pokemons tem que retornar lista com pokemons', function () {
         $this->user->pokemons()
-            ->attach($this->pokemon->id);
+            ->attach($this->pokemon->id, ['order' => 1]);
         $return = actingAs($this->user)
             ->get(route('user.list.pokemon',
                 [

@@ -12,6 +12,9 @@ return new class extends Migration {
     {
         Schema::create('users_pokemons', function (Blueprint $table) {
             $table->id();
+            $table->integer('order')
+                ->nullable(false);
+
             $table->foreignId('user_id')
                 ->constrained('users')
                 ->references("id")

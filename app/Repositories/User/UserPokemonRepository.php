@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Contracts\Repository\UserPokemonRepositoryContract;
+use App\Dto\UserPokemon\AddPokemonUserDto;
 use App\Models\User;
 use App\Repositories\AbstractRepository;
 
@@ -10,12 +11,51 @@ class UserPokemonRepository extends AbstractRepository implements UserPokemonRep
 {
     protected static string $model = User::class;
 
-    public function addPokemon(int $userId, int $pokemonId): array
-    {
+    public function addPokemon(
+        AddPokemonUserDto $addPokemonUserDto
+    ): bool {
+        $attached = self::loadModel()
+            ->query()
+            ->findOrFail($addPokemonUserDto->userId)
+            ->pokemons()
+            ->attach(
+                $addPokemonUserDto->pokemonId,
+                [
+                    'order' => $addPokemonUserDto->order
+                ]
+            );
+        return is_null($attached);
+    }
+
+    public function existsOfOrder(
+        int $userId,
+        int $order
+    ): bool {
         return self::loadModel()
             ->query()
             ->findOrFail($userId)
             ->pokemons()
-            ->syncWithoutDetaching($pokemonId);
+            ->wherePivot(
+                'order',
+                $order
+            )
+            ->exists();
+    }
+
+    public function updatePokemon(
+        AddPokemonUserDto $addPokemonUserDto
+    ): array {
+        return self::loadModel()
+            ->query()
+            ->findOrFail($addPokemonUserDto->userId)
+            ->pokemons()
+            ->wherePivot('order', $addPokemonUserDto->order)
+            ->sync(
+                [
+                    $addPokemonUserDto->pokemonId => [
+                        'order' => $addPokemonUserDto->order
+                    ]
+                ]
+            );
     }
 }

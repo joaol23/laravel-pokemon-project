@@ -2,13 +2,13 @@
 
 namespace App\Contracts\Services;
 
+use App\Dto\UserPokemon\AddPokemonUserDto;
 use Illuminate\Database\Eloquent\Collection;
 
 interface UserPokemonServiceContract
 {
     public function addPokemon(
-        int $userId,
-        int $pokemonId
+        AddPokemonUserDto $addPokemonUserDto
     ): bool;
 
     public function listPokemons(
