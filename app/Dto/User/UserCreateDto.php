@@ -10,7 +10,7 @@ class UserCreateDto extends BaseDto
     public function __construct(
         public string $name,
         public string $email,
-        private string $password
+        private readonly string $password
     ) {
     }
 

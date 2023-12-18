@@ -31,7 +31,7 @@ class PokemonRepository extends CrudRepository implements PokemonRepositoryContr
         array $types
     ): void {
         $pokemon->types()
-            ->attach(array_column($types, "id"));
+            ->syncWithoutDetaching(array_column($types, "id"));
     }
 
     public function existsByName(

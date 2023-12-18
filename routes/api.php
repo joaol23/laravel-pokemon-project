@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PokemonController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPokemonController;
+use App\Http\Middleware\OnlyChangeCurrentUser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,13 +28,20 @@ Route::prefix('/auth')
 
 Route::middleware('auth:sanctum')
     ->group(function () {
-        Route::apiResource('/user', UserController::class);
         Route::prefix('/auth')
             ->group(function () {
                 Route::post('/logout', [AuthController::class, 'logout'])
                     ->name('logout');
                 Route::get('/me', [AuthController::class, 'me'])
                     ->name('about.me');
+            });
+        Route::middleware(OnlyChangeCurrentUser::class)
+            ->group(function () {
+                Route::apiResource('/user', UserController::class);
+                Route::post('/user/{user}/pokemon/{pokemon}', [UserPokemonController::class, 'addPokemon'])
+                    ->name('user.add.pokemon');
+                Route::get('/user/{user}/pokemons', [UserPokemonController::class, 'listPokemons'])
+                    ->name('user.list.pokemon');
             });
     });
 

@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Enum\RolesUser;
+use App\Models\Pokemon\Pokemon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,6 +53,16 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return (int) $this->role === RolesUser::ADMIN->value;
+        return (int)$this->role === RolesUser::ADMIN->value;
+    }
+
+    public function pokemons(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Pokemon::class,
+            'users_pokemons',
+            'user_id',
+            'pokemon_id'
+        )->withPivot('order')->orderByPivot('order');
     }
 }
