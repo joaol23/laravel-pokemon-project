@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Tests\Objects\UserFakeTrait;
 use function Pest\Laravel\post;
 
@@ -14,6 +15,8 @@ describe("Teste do registro na api", function () {
             ->json("data");
 
         expect($return)->toHaveProperty("token");
+        expect(User::all()[0]->name)->toBe($newUser["name"]);
+        expect(User::all()[0]->email)->toBe($newUser["email"]);
     });
 
     test('Registrar usuário sem parâmetro, erro', function (string $parameterRemove) {

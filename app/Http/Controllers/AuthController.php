@@ -43,7 +43,7 @@ class AuthController extends Controller
         UserCreateRequest $userCreateRequest
     ): JsonResponse {
         $userDto = new UserCreateDto(
-            $userCreateRequest->get('email'),
+            $userCreateRequest->get('name'),
             $userCreateRequest->get('email'),
             $userCreateRequest->get('password')
         );
