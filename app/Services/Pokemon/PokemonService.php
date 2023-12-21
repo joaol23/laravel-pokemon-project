@@ -17,13 +17,13 @@ use Symfony\Component\HttpFoundation\Response;
 class PokemonService implements PokemonServiceContract
 {
     public function __construct(
-        private readonly PokemonRepositoryContract   $pokemonRepository,
+        private readonly PokemonRepositoryContract $pokemonRepository,
         private readonly PokemonTypesServiceContract $pokemonTypesService
     ) {
     }
 
     public function create(
-        PokemonCreateDto          $pokemonCreateDto,
+        PokemonCreateDto $pokemonCreateDto,
         PokemonListTypesCreateDto $pokemonListTypesCreateDto
     ): Pokemon {
         try {
@@ -71,6 +71,21 @@ class PokemonService implements PokemonServiceContract
         try {
             return $this->pokemonRepository
                 ->existsByName($name);
+        } catch (\Throwable $e) {
+            CustomLogger::error(
+                "Erro ao buscar pokemon => " . $e->getMessage(),
+                LogsFolder::POKEMON
+            );
+            throw new ObjectNotFound('Pokemon');
+        }
+    }
+
+    public function search(
+        string $searchParam
+    ): LengthAwarePaginator {
+        try {
+            return $this->pokemonRepository
+                ->searchByName($searchParam);
         } catch (\Throwable $e) {
             CustomLogger::error(
                 "Erro ao buscar pokemon => " . $e->getMessage(),

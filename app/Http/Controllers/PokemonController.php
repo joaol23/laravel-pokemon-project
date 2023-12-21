@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\PokemonExternalServiceContract;
 use App\Contracts\Services\PokemonServiceContract;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PokemonController extends Controller
 {
@@ -15,8 +16,16 @@ class PokemonController extends Controller
     ) {
     }
 
-    public function index(): JsonResponse
-    {
+    public function index(
+        Request $request
+    ): JsonResponse {
+        $searchParam = $request->query('q');
+        if ($searchParam) {
+            return response()->json(
+                $this->pokemonService
+                    ->search($searchParam)
+            );
+        }
         return response()->json(
             $this->pokemonService
                 ->listAll()
@@ -25,8 +34,10 @@ class PokemonController extends Controller
 
     public function details(string $name): JsonResponse
     {
-        return response()->json([
-            "data" => $this->pokemonExternalService->getPokemon($name)
-        ]);
+        return response()->json(
+            [
+                "data" => $this->pokemonExternalService->getPokemon($name)
+            ]
+        );
     }
 }

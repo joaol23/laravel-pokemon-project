@@ -13,3 +13,4 @@
 | Fluxo de selecionar Pokemons para os usuários                                                                         | Tendo ordem dos pokemons. E poder listar pokemons de usuario                                  | Feito        |
 | Cadastro de imagens de perfil para cada usuario                                                                       |                                                                                               | Planejamento |
 | Remover pokemons sem ter que adicionar outros                                                                         |                                                                                               | Planejamento |
+| Pesquisa de pokemons por nome                                                                                         |                                                                                               | Em andamento |
