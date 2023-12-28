@@ -18,4 +18,8 @@ interface PokemonServiceContract
     public function listAll(): LengthAwarePaginator;
 
     public function existsByName(string $name): bool;
+
+    public function search(
+        string $searchParam
+    ): LengthAwarePaginator;
 }
