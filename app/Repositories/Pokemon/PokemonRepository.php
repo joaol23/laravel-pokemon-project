@@ -42,4 +42,18 @@ class PokemonRepository extends CrudRepository implements PokemonRepositoryContr
             ->where('name', $name)
             ->exists();
     }
+
+    public function searchByName(
+        string $name
+    ): LengthAwarePaginator {
+        $currentPage = Paginator::resolveCurrentPage('page');
+        return Cache::remember(
+            "pokemons_search_{$name}_{$currentPage}",
+            now()->addMinutes(10),
+            fn() => static::loadModel()::query()
+                ->where('name', 'like', "%{$name}%")
+                ->orderBy('pokemon_id')
+                ->paginate(static::$paginate)
+        );
+    }
 }
