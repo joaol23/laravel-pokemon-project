@@ -58,4 +58,13 @@ class UserPokemonRepository extends AbstractRepository implements UserPokemonRep
                 ]
             );
     }
+
+    public function removePokemonByOrder(
+        User $user,
+        int $order
+    ): bool {
+        return $user->pokemons()
+            ->wherePivot('order', $order)
+            ->detach();
+    }
 }

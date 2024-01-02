@@ -7,6 +7,7 @@ use App\Contracts\Repository\UserRepositoryContract;
 use App\Contracts\Services\UserPokemonServiceContract;
 use App\Dto\UserPokemon\AddPokemonUserDto;
 use App\Enum\LogsFolder;
+use App\Models\User;
 use App\Utils\Logging\CustomLogger;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\QueryException;
@@ -69,6 +70,25 @@ class UserPokemonService implements UserPokemonServiceContract
                 LogsFolder::USERS
             );
             throw new \RuntimeException("Error ao listar pokemons!");
+        }
+    }
+
+    public function removePokemonInOrder(
+        int $userId,
+        int $order
+    ): bool {
+        try {
+            /** @var User $user */
+            $user = $this->userRepository::find($userId);
+            return $this->userPokemonRepository->removePokemonByOrder(
+                $user, $order
+            );
+        } catch (\Throwable $e) {
+            CustomLogger::error(
+                "Error ao excluir pokemon na posição {$order} => " . $e->getMessage(),
+                LogsFolder::USERS
+            );
+            throw new \RuntimeException("Error ao excluir pokemom!");
         }
     }
 }

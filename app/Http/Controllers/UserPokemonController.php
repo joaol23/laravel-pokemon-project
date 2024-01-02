@@ -45,4 +45,18 @@ class UserPokemonController extends Controller
             ]
         );
     }
+
+    public function removePokemon(
+        int $userId,
+        int $order
+    ): JsonResponse {
+        $removed = $this->userPokemonService
+            ->removePokemonInOrder($userId, $order);
+        return response()->json(
+            [
+                "type"    => $removed,
+                "message" => $removed ? "Pokemon removido com sucesso!" : "Sem pokemon nessa posição!",
+            ], $removed ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST
+        );
+    }
 }
