@@ -1,5 +1,10 @@
 # Projeto pessoal de pokemons para treinar conceitos no laravel
 
+<p align="center">
+    <img alt="PHP" src="https://img.shields.io/badge/PHP-8.2-purple" />
+    <img alt="Laravel" src="https://img.shields.io/badge/Laravel-darkred">
+</p>
+
 Um projeto que te da possibilidade de criar um
 treinador pokemon, e selecionar quais pokemons quer em seu time
 
