@@ -14,4 +14,9 @@ interface UserPokemonServiceContract
     public function listPokemons(
         int $userId
     ): Collection;
+
+    public function removePokemonInOrder(
+        int $userId,
+        int $order
+    ): bool;
 }

@@ -40,6 +40,8 @@ Route::middleware('auth:sanctum')
                 Route::apiResource('/user', UserController::class);
                 Route::post('/user/{user}/pokemon/{pokemon}', [UserPokemonController::class, 'addPokemon'])
                     ->name('user.add.pokemon');
+                Route::delete('/user/{user}/pokemon/{order}', [UserPokemonController::class, 'removePokemon'])
+                    ->name('user.remove.pokemon');
                 Route::get('/user/{user}/pokemons', [UserPokemonController::class, 'listPokemons'])
                     ->name('user.list.pokemon');
             });

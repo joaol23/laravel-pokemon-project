@@ -212,70 +212,72 @@ describe(
         );
 
         test(
-            "Adicionando mesmo pokemon em ordens diferentes", function () {
-            $this->user->pokemons()
-                ->attach($this->pokemon->id, ["order" => 1]);
-
-            $response = $this->actingAs($this->user)
-                ->post(
-                    route(
-                        "user.add.pokemon",
-                        [
-                            $this->user->id,
-                            $this->pokemon->id
-                        ]
-                    ),
-                    ["order" => 2]
-                )
-                ->assertStatus(201)
-                ->assertJson(
-                    [
-                        "type"    => true,
-                        "message" => "Pokemon adicionado com sucesso!"
-                    ]
-                );
-
-            expect(
+            "Adicionando mesmo pokemon em ordens diferentes",
+            function () {
                 $this->user->pokemons()
-                    ->get()
-            )->toHaveCount(2);
-        }
+                    ->attach($this->pokemon->id, ["order" => 1]);
+
+                $response = $this->actingAs($this->user)
+                    ->post(
+                        route(
+                            "user.add.pokemon",
+                            [
+                                $this->user->id,
+                                $this->pokemon->id
+                            ]
+                        ),
+                        ["order" => 2]
+                    )
+                    ->assertStatus(201)
+                    ->assertJson(
+                        [
+                            "type"    => true,
+                            "message" => "Pokemon adicionado com sucesso!"
+                        ]
+                    );
+
+                expect(
+                    $this->user->pokemons()
+                        ->get()
+                )->toHaveCount(2);
+            }
         );
 
         test(
-            "Adicionar pokemon em mesma ordem, quando tem dois pokemons iguais em ordem diferente", function () {
-            $this->user->pokemons()
-                ->attach($this->pokemon->id, ["order" => 1]);
-            $this->user->pokemons()
-                ->attach($this->pokemon->id, ["order" => 2]);
-
-            $pokemon2 = Pokemon::factory()
-                ->create();
-
-            $response = $this->actingAs($this->user)
-                ->post(
-                    route(
-                        "user.add.pokemon",
-                        [
-                            $this->user->id,
-                            $pokemon2->id
-                        ]
-                    ),
-                    ["order" => 1]
-                )
-                ->assertStatus(201)
-                ->assertJson(
-                    [
-                        "type"    => true,
-                        "message" => "Pokemon adicionado com sucesso!"
-                    ]
-                );
-
-            expect(
+            "Adicionar pokemon em mesma ordem, quando tem dois pokemons iguais em ordem diferente",
+            function () {
                 $this->user->pokemons()
-                    ->get()
-            )->toHaveCount(2);
-        }
+                    ->attach($this->pokemon->id, ["order" => 1]);
+                $this->user->pokemons()
+                    ->attach($this->pokemon->id, ["order" => 2]);
+
+                $pokemon2 = Pokemon::factory()
+                    ->create();
+
+                $response = $this->actingAs($this->user)
+                    ->post(
+                        route(
+                            "user.add.pokemon",
+                            [
+                                $this->user->id,
+                                $pokemon2->id
+                            ]
+                        ),
+                        ["order" => 1]
+                    )
+                    ->assertStatus(201)
+                    ->assertJson(
+                        [
+                            "type"    => true,
+                            "message" => "Pokemon adicionado com sucesso!"
+                        ]
+                    );
+
+                expect(
+                    $this->user->pokemons()
+                        ->get()
+                )->toHaveCount(2);
+            }
         );
     }
 );

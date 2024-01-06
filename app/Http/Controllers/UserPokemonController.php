@@ -25,14 +25,14 @@ class UserPokemonController extends Controller
             $userId,
             $pokemonId
         );
+        $created = $this->userPokemonService
+            ->addPokemon($addPokemonDto);
         return response()->json(
             [
-                "type"    =>
-                    $this->userPokemonService
-                        ->addPokemon($addPokemonDto),
-                "message" => "Pokemon adicionado com sucesso!"
+                "message" => $created ? "Pokemon adicionado com sucesso!" : "Erro ao adicionar pokemon!",
+                "type"    => $created,
             ],
-            Response::HTTP_CREATED
+            $created ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST
         );
     }
 
@@ -43,6 +43,20 @@ class UserPokemonController extends Controller
             [
                 "data" => $this->userPokemonService->listPokemons($userId),
             ]
+        );
+    }
+
+    public function removePokemon(
+        int $userId,
+        int $order
+    ): JsonResponse {
+        $removed = $this->userPokemonService
+            ->removePokemonInOrder($userId, $order);
+        return response()->json(
+            [
+                "message" => $removed ? "Pokemon removido com sucesso!" : "Sem pokemon nessa posição!",
+                "type"    => $removed,
+            ], $removed ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST
         );
     }
 }
