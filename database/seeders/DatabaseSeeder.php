@@ -15,17 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        try {
-            UserFactory::new()->create([
-                'email' => 'teste@example.com',
-                'password' => Hash::make('password'),
-            ]);
-            $this->call([
-                PokemonSeeder::class,
-                PokemonTypesSeeder::class
-            ]);
-        } catch (\Throwable $e) {
-            dd($e);
-        }
+        UserFactory::new()
+            ->create([
+                         'email'    => 'teste@example.com',
+                         'password' => Hash::make('password'),
+                     ]);
+        $this->call([
+                        PokemonSeeder::class,
+                        PokemonTypesSeeder::class
+                    ]);
     }
 }
