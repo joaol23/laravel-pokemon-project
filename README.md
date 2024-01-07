@@ -6,7 +6,9 @@
 </p>
 
 Um projeto que te da possibilidade de criar um
-treinador pokemon, e selecionar quais pokemons quer em seu time
+treinador pokemon, e selecionar quais pokemons quer no seu time
+
+- [Projeto front-end](https://github.com/joaol23/pokemon-project-front)
 
 ## 🚀 Começando
 
