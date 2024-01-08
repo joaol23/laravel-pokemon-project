@@ -1,9 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
 use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -17,12 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         UserFactory::new()
             ->create([
-                         'email'    => 'teste@example.com',
-                         'password' => Hash::make('password'),
-                     ]);
+                'email'    => 'teste@example.com',
+                'password' => Hash::make('password'),
+            ]);
         $this->call([
-                        PokemonSeeder::class,
-                        PokemonTypesSeeder::class
-                    ]);
+            PokemonSeeder::class,
+            PokemonTypesSeeder::class
+        ]);
     }
 }
