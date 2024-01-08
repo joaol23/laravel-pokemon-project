@@ -19,6 +19,7 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^7.0",
         "pestphp/pest": "^2.24",
+        "pestphp/pest-plugin-arch": "^2.5",
         "pestphp/pest-plugin-drift": "^2.5",
         "pestphp/pest-plugin-laravel": "^2.2",
         "pestphp/pest-plugin-type-coverage": "^2.4",
