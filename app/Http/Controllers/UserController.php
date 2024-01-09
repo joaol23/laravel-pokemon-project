@@ -6,12 +6,11 @@ use App\Contracts\Services\UserServiceContract;
 use App\Dto\User\UserCreateDto;
 use App\Dto\User\UserUpdateDto;
 use App\Http\Middleware\OnlyAdmin;
-use App\Http\Middleware\OnlyChangeCurrentUser;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Utils\Params\ValidId;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -30,14 +29,14 @@ class UserController extends Controller
         );
     }
 
-    public function store(UserCreateRequest $request)
-    {
+    public function store(
+        UserCreateRequest $request
+    ): JsonResponse {
         $userDto = new UserCreateDto(
             $request->name,
             $request->email,
             $request->password
         );
-
         return response()->json([
             "data" => $this->userService
                 ->create($userDto)
@@ -46,7 +45,7 @@ class UserController extends Controller
 
     public function show(
         int $id
-    ) {
+    ): JsonResponse {
         return response()->json([
             "data" => $this->userService
                 ->getById(ValidId::validate($id))

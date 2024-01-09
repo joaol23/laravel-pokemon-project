@@ -12,7 +12,6 @@ use App\Models\User;
 use App\Notifications\UserCreatedNotification;
 use App\Utils\Logging\CustomLogger;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserService implements UserServiceContract
@@ -28,7 +27,6 @@ class UserService implements UserServiceContract
         try {
             /** @var User $user */
             $user = $this->userRepository::create($userCreateDto);
-
             $user->notify(new UserCreatedNotification());
             return $user;
         } catch (\Exception $e) {
@@ -56,7 +54,7 @@ class UserService implements UserServiceContract
 
     public function update(
         UserUpdateDto $userUpdateDto,
-        int           $id
+        int $id
     ): User {
         try {
             $this->userRepository::update($userUpdateDto, $id);
