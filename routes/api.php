@@ -45,7 +45,7 @@ Route::middleware('auth:sanctum')
                     ->name('user.remove.pokemon');
                 Route::get('/{user}/pokemons', [UserPokemonController::class, 'listPokemons'])
                     ->name('user.list.pokemon');
-                Route::post('/photo', [UserProfileController::class, 'saveProfile'])
+                Route::post('/{user}/photo', [UserProfileController::class, 'saveProfile'])
                     ->name('user.photo');
             });
     });

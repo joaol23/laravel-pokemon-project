@@ -16,9 +16,13 @@ class UserProfileController extends Controller
     }
 
     public function saveProfile(
+        int $userId,
         UserProfileImageRequest $request
     ): JsonResponse {
-        $dto = new UserProfileSaveImageDto($request->file('photo'));
+        $dto = new UserProfileSaveImageDto(
+            $request->file('photo'),
+            $userId
+        );
         $savePhoto = $this->userProfileService
             ->savePhoto($dto);
 

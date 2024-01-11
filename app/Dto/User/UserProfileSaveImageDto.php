@@ -8,7 +8,8 @@ use Illuminate\Http\UploadedFile;
 class UserProfileSaveImageDto extends BaseDto implements UploadFileDtoInterface
 {
     public function __construct(
-        private readonly UploadedFile $image
+        private readonly UploadedFile $image,
+        public readonly int $userId
     ) { }
 
     public function nameFile(): string
