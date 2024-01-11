@@ -1,9 +1,13 @@
 <?php
 
 namespace App\Contracts\Services;
-use App\Dto\UploadFileInterface;
+
+use App\Dto\UploadFileDtoInterface;
 
 interface UploadFileServiceContract
 {
-    public function upload(UploadFileInterface $uploadFile): string;
+    public function upload(
+        UploadFileDtoInterface $uploadFile,
+        string $path
+    ): string;
 }

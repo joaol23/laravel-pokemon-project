@@ -3,7 +3,7 @@
 namespace App\Dto;
 use Illuminate\Http\UploadedFile;
 
-interface UploadFileInterface
+interface UploadFileDtoInterface
 {
     public function nameFile(): string;
 

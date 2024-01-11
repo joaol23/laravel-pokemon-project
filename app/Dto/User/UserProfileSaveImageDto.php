@@ -2,10 +2,10 @@
 
 namespace App\Dto\User;
 use App\Dto\BaseDto;
-use App\Dto\UploadFileInterface;
+use App\Dto\UploadFileDtoInterface;
 use Illuminate\Http\UploadedFile;
 
-class UserProfileSaveImageInterface extends BaseDto implements UploadFileInterface
+class UserProfileSaveImageDto extends BaseDto implements UploadFileDtoInterface
 {
     public function __construct(
         private readonly UploadedFile $image

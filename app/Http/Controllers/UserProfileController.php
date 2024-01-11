@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Services\UserProfileServiceContract;
-use App\Dto\User\UserProfileSaveImageInterface;
+use App\Dto\User\UserProfileSaveImageDto;
 use App\Http\Requests\User\UserProfileImageRequest;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserProfileController extends Controller
 {
@@ -17,16 +18,25 @@ class UserProfileController extends Controller
     public function saveProfile(
         UserProfileImageRequest $request
     ): JsonResponse {
-        $dto = new UserProfileSaveImageInterface($request->file('photo'));
+        $dto = new UserProfileSaveImageDto($request->file('photo'));
         $savePhoto = $this->userProfileService
             ->savePhoto($dto);
-        return response()->json(
-            [
-                "data"    => [
-                ],
-                "message" => $savePhoto ? "Imagem salva com sucesso!" : "Erro ao salvar imagem!",
-                "type"    => $savePhoto
-            ]
-        );
+
+        if ($savePhoto !== false) {
+            return response()->json(
+                [
+                    "data"    => [
+                        "path" => $savePhoto
+                    ],
+                    "message" => "Imagem salva com sucesso!",
+                    "type"    => true
+                ]
+            );
+        }
+
+        return response()->json([
+            "message" => "Erro ao salvar imagem!",
+            "type"    => false
+        ], Response::HTTP_BAD_REQUEST);
     }
 }

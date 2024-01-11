@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserProfileImageRequest extends FormRequest
 {
+    private int $SIZE_KB = 3072; //3 Mb's
 
     /**
      * Get the validation rules that apply to the request.
@@ -15,7 +16,7 @@ class UserProfileImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo' => 'required|size:3072|mimes:jpeg,png,jpg,gif'
+            "photo" => "required|max:{$this->SIZE_KB}|mimes:jpeg,png,jpg,gif"
         ];
     }
 }

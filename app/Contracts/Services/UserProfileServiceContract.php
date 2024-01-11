@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Contracts\Services;
-use App\Dto\User\UserProfileSaveImageInterface;
+use App\Dto\User\UserProfileSaveImageDto;
 
 interface UserProfileServiceContract
 {
     public function savePhoto(
-        UserProfileSaveImageInterface $userProfileSaveImageDto
-    ): bool;
+        UserProfileSaveImageDto $userProfileSaveImageDto
+    ): bool|string;
 }

@@ -4,7 +4,7 @@ namespace App\Services\User;
 
 use App\Contracts\Services\UploadFileServiceContract;
 use App\Contracts\Services\UserProfileServiceContract;
-use App\Dto\User\UserProfileSaveImageInterface;
+use App\Dto\User\UserProfileSaveImageDto;
 
 class UserProfileService implements UserProfileServiceContract
 {
@@ -15,11 +15,11 @@ class UserProfileService implements UserProfileServiceContract
     }
 
     public function savePhoto(
-        UserProfileSaveImageInterface $userProfileSaveImageDto
-    ): bool {
+        UserProfileSaveImageDto $userProfileSaveImageDto
+    ): bool|string {
         try {
-            $pathImage = $this->uploadFileService->upload($userProfileSaveImageDto);
-            return false;
+             return $this->uploadFileService
+                ->upload($userProfileSaveImageDto, 'profile');
         } catch (\Throwable $e) {
         }
     }
