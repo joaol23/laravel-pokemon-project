@@ -23,8 +23,9 @@ class UserProfileService implements UserProfileServiceContract
     ): bool|string {
         try {
             $pathPhoto = $this->uploadFileService
-                ->upload($userProfileSaveImageDto, 'profile');
-            if (!$this->userRepository->savePhoto($pathPhoto, $userProfileSaveImageDto->userId)) {
+                ->upload($userProfileSaveImageDto, 'profile');;
+            if (!$this->userRepository
+                ->savePhoto($pathPhoto, $userProfileSaveImageDto->userId)) {
                 throw new ErroSavingImageUser();
             }
             return $pathPhoto;
@@ -33,7 +34,7 @@ class UserProfileService implements UserProfileServiceContract
                 "Erro ao salvar imagem de perfil => " . $e->getMessage(),
                 LogsFolder::USERS
             );
-            throw new \RuntimeException("Erro ao salvar imagem!");
+            return false;
         }
     }
 }
