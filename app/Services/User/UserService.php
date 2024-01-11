@@ -71,8 +71,9 @@ class UserService implements UserServiceContract
         }
     }
 
-    public function getById(int $id): User
-    {
+    public function getById(
+        int $id
+    ): User {
         try {
             /** @var User */
             return $this->userRepository::find($id);
@@ -87,8 +88,9 @@ class UserService implements UserServiceContract
         }
     }
 
-    public function inactive(int $id): bool
-    {
+    public function inactive(
+        int $id
+    ): bool {
         try {
             return $this->userRepository::delete($id);
         } catch (ObjectNotFound $e) {
