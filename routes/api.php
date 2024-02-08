@@ -36,17 +36,19 @@ Route::middleware('auth:sanctum')
                     ->name('about.me');
             });
         Route::middleware(OnlyChangeCurrentUser::class)
-            ->prefix('user')
             ->group(function () {
-                Route::apiResource('/', UserController::class);
-                Route::post('/{user}/pokemon/{pokemon}', [UserPokemonController::class, 'addPokemon'])
-                    ->name('user.add.pokemon');
-                Route::delete('/{user}/pokemon/{order}', [UserPokemonController::class, 'removePokemon'])
-                    ->name('user.remove.pokemon');
-                Route::get('/{user}/pokemons', [UserPokemonController::class, 'listPokemons'])
-                    ->name('user.list.pokemon');
-                Route::post('/{user}/photo', [UserProfileController::class, 'saveProfile'])
-                    ->name('user.photo');
+                Route::apiResource('/user', UserController::class);
+                Route::prefix("/user")
+                    ->group(function () {
+                        Route::post('/{user}/pokemon/{pokemon}', [UserPokemonController::class, 'addPokemon'])
+                            ->name('user.add.pokemon');
+                        Route::delete('/{user}/pokemon/{order}', [UserPokemonController::class, 'removePokemon'])
+                            ->name('user.remove.pokemon');
+                        Route::get('/{user}/pokemons', [UserPokemonController::class, 'listPokemons'])
+                            ->name('user.list.pokemon');
+                        Route::post('/{user}/photo', [UserProfileController::class, 'saveProfile'])
+                            ->name('user.photo');
+                    });
             });
     });
 
