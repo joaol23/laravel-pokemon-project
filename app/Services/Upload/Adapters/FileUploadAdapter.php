@@ -3,44 +3,51 @@
 namespace App\Services\Upload\Adapters;
 
 use App\Dto\UploadFileDtoInterface;
+use App\Exceptions\Upload\DirNotCreated;
+use App\Exceptions\Upload\FileNotUploaded;
 use Illuminate\Support\Facades\Storage;
 
 class FileUploadAdapter implements UploadAdapterInterface
 {
+    private const DISK_PUBLIC = "public";
+
     public function save(
         string $path,
         UploadFileDtoInterface $fileDto
     ): string {
         if (!$this->createDir($path)) {
-            exit(); // TODO
+            throw new DirNotCreated();
         }
         $pathFile = $path . DIRECTORY_SEPARATOR . $fileDto->nameFile();
         if (
-            !Storage::disk('public')
-                ->put($pathFile, $fileDto->file()->getContent())
+            !Storage::disk(self::DISK_PUBLIC)
+                    ->put($pathFile, $fileDto->file()
+                        ->getContent())
         ) {
-            exit();
+            throw new FileNotUploaded($pathFile);
         }
-        return Storage::disk('public')
+        return Storage::disk(self::DISK_PUBLIC)
             ->url($pathFile);
     }
 
     private function createDir(
         string $path
     ): bool {
-        return Storage::disk('public')
+        return Storage::disk(self::DISK_PUBLIC)
             ->makeDirectory($path);
     }
 
     public function exists(
         $path
     ): bool {
-        // TODO: Implement exists() method.
+        return Storage::disk(self::DISK_PUBLIC)
+            ->exists($path);
     }
 
     public function delete(
         $path
     ): bool {
-        // TODO: Implement delete() method.
+        return Storage::disk(self::DISK_PUBLIC)
+            ->delete($path);
     }
 }

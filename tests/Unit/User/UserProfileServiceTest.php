@@ -40,5 +40,5 @@ describe("Testando o serviço de perfil do usuario", function () {
         $userProfileService = new UserProfileService($uploadServiceMock, $userRepository);
         $return = $userProfileService->savePhoto($uploadPhotoDto);
         expect($return)->toBeFalse();
-    })->only();
+    });
 });
