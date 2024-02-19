@@ -22,13 +22,13 @@ class UserProfileService implements UserProfileServiceContract
         UserProfileSaveImageDto $userProfileSaveImageDto
     ): bool|string {
         try {
-            $pathPhoto = $this->uploadFileService
-                ->upload($userProfileSaveImageDto, 'profile');;
+            $urlPhoto = $this->uploadFileService
+                ->upload($userProfileSaveImageDto, 'profile');
             if (!$this->userRepository
-                ->savePhoto($pathPhoto, $userProfileSaveImageDto->userId)) {
+                ->savePhoto($urlPhoto, $userProfileSaveImageDto->userId)) {
                 throw new ErroSavingImageUser();
             }
-            return $pathPhoto;
+            return $urlPhoto;
         } catch (\Throwable $e) {
             CustomLogger::error(
                 "Erro ao salvar imagem de perfil => " . $e->getMessage(),
