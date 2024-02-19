@@ -13,7 +13,7 @@ arch('Contracts')
     ->toBeInterfaces();
 
 arch('models')
-    ->todo()
+    ->skip()
     ->expect('App\Models')
     ->toOnlyBeUsedIn('App\Repositories')
     ->ignoring('Database\\');
