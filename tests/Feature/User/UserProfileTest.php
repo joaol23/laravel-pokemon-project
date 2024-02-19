@@ -54,5 +54,5 @@ describe("Testando rota de perfil do usuário", function () {
 
         expect($return)->toHaveProperty("message", "Não autorizado!");
         expect($return)->toHaveProperty("type", false);
-    })->only();
+    });
 });
