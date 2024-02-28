@@ -25,7 +25,6 @@ class User extends Authenticatable
         'email',
         'password'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -36,7 +35,6 @@ class User extends Authenticatable
         'remember_token',
         'role',
     ];
-
     /**
      * The attributes that should be cast.
      *
@@ -63,6 +61,8 @@ class User extends Authenticatable
             'users_pokemons',
             'user_id',
             'pokemon_id'
-        )->withPivot('order')->orderByPivot('order');
+        )
+            ->withPivot('order')
+            ->orderByPivot('order');
     }
 }

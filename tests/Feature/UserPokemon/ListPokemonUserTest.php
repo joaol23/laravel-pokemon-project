@@ -45,7 +45,10 @@ describe('Testando o fluxo de listagem de pokemons de usuarios', function () {
             'id',
             'name',
             'types',
-            'pivot'
+            'image',
+            'pokemon_id',
+            'user_id',
+            'order'
         ]);
     });
 

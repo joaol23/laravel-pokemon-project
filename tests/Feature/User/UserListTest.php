@@ -24,7 +24,7 @@ describe("Testagem dos fluxos de listar usuários, somente admin", function () {
 
 
         expect($return->data[0])->toHaveKeys(['id', 'name', 'email']);
-        expect($return->total)->toBe(2);
+        expect($return->pagination["total"])->toBe(2);
     });
 
     test('Listagem de usuários como user normal, erro', function () {

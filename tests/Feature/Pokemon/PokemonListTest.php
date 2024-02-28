@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Pokemon\Pokemon;
-use Database\Seeders\PokemonSeeder;
 use function Pest\Laravel\get;
 
 describe("Testando a listagem de pokemons", function () {
@@ -19,16 +18,16 @@ describe("Testando a listagem de pokemons", function () {
         expect($response->data[0])
             ->toHaveKeys(["id", "name", "image", "pokemon_id", "types"]);
 
-        expect($response->current_page)
+        expect($response->pagination["current_page"])
             ->toBe(1);
 
-        expect($response->last_page)->toBe(1);
+        expect($response->pagination["last_page"])->toBe(1);
 
-        expect($response->per_page)->toBe(30);
+        expect($response->pagination["per_page"])->toBe(30);
 
-        expect($response->total)->toBe(3);
+        expect($response->pagination["total"])->toBe(3);
 
-        expect($response->next_page_url)
+        expect($response->links["next"])
             ->toBe(null);
     });
 
@@ -41,24 +40,26 @@ describe("Testando a listagem de pokemons", function () {
             ->toBeArray()
             ->toHaveCount(0);
 
-        expect($response->current_page)
+        expect($response->pagination["current_page"])
             ->toBe(1);
 
-        expect($response->last_page)->toBe(1);
+        expect($response->pagination["last_page"])->toBe(1);
 
-        expect($response->per_page)->toBe(30);
+        expect($response->pagination["per_page"])->toBe(30);
 
-        expect($response->total)->toBe(0);
+        expect($response->pagination["total"])->toBe(0);
 
-        expect($response->next_page_url)
+        expect($response->links["next"])
             ->toBe(null);
     });
 
     test("Testando lista com busca", function () {
-        Pokemon::factory()->createOne([
-            "name" => "charmander"
-        ]);
-        Pokemon::factory()->createOne();
+        Pokemon::factory()
+            ->createOne([
+                "name" => "charmander"
+            ]);
+        Pokemon::factory()
+            ->createOne();
 
         $response = (object)get(route("pokemon.list", ["q" => "Charmander"]))
             ->assertStatus(200)
@@ -71,16 +72,16 @@ describe("Testando a listagem de pokemons", function () {
         expect($response->data[0])
             ->toHaveKeys(["id", "name", "image", "pokemon_id", "types"]);
 
-        expect($response->current_page)
+        expect($response->pagination["current_page"])
             ->toBe(1);
 
-        expect($response->last_page)->toBe(1);
+        expect($response->pagination["last_page"])->toBe(1);
 
-        expect($response->per_page)->toBe(30);
+        expect($response->pagination["per_page"])->toBe(30);
 
-        expect($response->total)->toBe(1);
+        expect($response->pagination["total"])->toBe(1);
 
-        expect($response->next_page_url)
+        expect($response->links["next"])
             ->toBe(null);
     });
 });

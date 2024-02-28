@@ -25,12 +25,10 @@ describe("Testagem da rota de me", function () {
             headers: ['Authorization' => 'Bearer ' . $this->token]
         )
             ->assertStatus(200)
-            ->json("data.user");
+            ->json("data");
 
         expect($return)->toHaveProperty("name", $this->user->name);
         expect($return)->toHaveProperty("email", $this->user->email);
-        expect($return)->toHaveProperty("created_at");
-        expect($return)->toHaveProperty("updated_at");
         expect($return)->toHaveProperty("id", $this->user->id);
     });
 
